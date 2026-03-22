@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Quill rich text editor ─────────────────────────────── */
+.rich-editor .ql-toolbar {
+  border-radius: 0.75rem 0.75rem 0 0;
+  border-color: #e5e7eb;
+  background: #f9fafb;
+}
+.rich-editor .ql-container {
+  border-radius: 0 0 0.75rem 0.75rem;
+  border-color: #e5e7eb;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.875rem;
+  min-height: 200px;
+}
+.rich-editor .ql-editor {
+  min-height: 200px;
+  line-height: 1.7;
+}
+.rich-editor .ql-editor.ql-blank::before {
+  color: #9ca3af;
+  font-style: normal;
+}
+.rich-editor:focus-within .ql-toolbar,
+.rich-editor:focus-within .ql-container {
+  border-color: #fb923c;
+}
+.rich-editor:focus-within .ql-toolbar {
+  box-shadow: 0 0 0 3px rgba(251,146,60,0.15);
+}
+.rich-editor .ql-editor h2 { font-size: 1.25rem; font-weight: 700; margin: 1rem 0 0.5rem; }
+.rich-editor .ql-editor h3 { font-size: 1.05rem; font-weight: 600; margin: 0.75rem 0 0.4rem; }
+.rich-editor .ql-editor p  { margin-bottom: 0.5rem; }
+.rich-editor .ql-editor ul,
+.rich-editor .ql-editor ol  { padding-left: 1.5rem; margin-bottom: 0.5rem; }
+.rich-editor .ql-editor a  { color: #f97316; text-decoration: underline; }
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    @apply text-gray-800 bg-white;
+  }
+}
+
+@layer utilities {
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .text-gradient {
+    @apply bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent;
+  }
+  .section-title {
+    @apply text-2xl md:text-3xl font-bold text-center text-gray-800 mb-2;
+  }
+  .section-subtitle {
+    @apply text-center text-gray-500 mb-10 max-w-xl mx-auto;
+  }
+}
+
+/* Hamburger transitions */
+.nav-menu {
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+/* Card hover */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+/* Stat counter */
+.stat-number {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #f97316; border-radius: 3px; }
+
+/* Image lazy */
+img[loading="lazy"] {
+  transition: opacity 0.3s ease;
+}
