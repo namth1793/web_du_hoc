@@ -63,19 +63,33 @@ function ArticleCard({ article }) {
   );
 }
 
+const HAS_OVERVIEW = ['du-hoc', 'xuat-khau-lao-dong'];
+
 export default function ArticleList({ section }) {
   const { subcategory } = useParams();
   const [articles, setArticles] = useState([]);
+  const [overview, setOverview] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const sectionData = SECTIONS[section];
   const subcategoryLabel = sectionData?.subcategories[subcategory] || subcategory;
   const sectionLabel = sectionData?.label || section;
+  const showOverview = HAS_OVERVIEW.includes(section);
 
   useEffect(() => {
     setLoading(true);
-    api.get('/api/articles', { params: { section, subcategory } })
-      .then(r => setArticles(r.data.data || []))
+    setOverview(null);
+    const promises = [
+      api.get('/api/articles', { params: { section, subcategory } })
+    ];
+    if (showOverview) {
+      promises.push(api.get('/api/articles/overview', { params: { section, subcategory } }));
+    }
+    Promise.all(promises)
+      .then(([articlesRes, overviewRes]) => {
+        setArticles(articlesRes.data.data || []);
+        if (overviewRes) setOverview(overviewRes.data.data || null);
+      })
       .catch(() => setArticles([]))
       .finally(() => setLoading(false));
   }, [section, subcategory]);
@@ -120,6 +134,63 @@ export default function ArticleList({ section }) {
             </Link>
           ))}
         </div>
+
+        {/* Overview block */}
+        {showOverview && !loading && overview && (
+          <div className="mb-10 bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
+            {overview.cover_image && (
+              <div className="h-56 md:h-72 overflow-hidden">
+                <img
+                  src={overview.cover_image}
+                  alt={overview.title}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            )}
+            <div className="p-6 md:p-10">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="bg-orange-100 text-orange-600 text-xs font-bold px-3 py-1 rounded-full">Tổng quan</span>
+                <span className="bg-blue-100 text-blue-600 text-xs font-bold px-3 py-1 rounded-full">{subcategoryLabel}</span>
+              </div>
+              <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-3">{overview.title}</h2>
+              {overview.excerpt && (
+                <p className="text-gray-600 italic border-l-4 border-orange-400 pl-4 bg-orange-50 py-3 pr-4 rounded-r-xl mb-6 leading-relaxed">
+                  {overview.excerpt}
+                </p>
+              )}
+              <div
+                className="prose prose-gray max-w-none text-gray-700 leading-relaxed
+                  prose-h2:text-lg prose-h2:font-bold prose-h2:text-gray-800 prose-h2:mt-6 prose-h2:mb-2
+                  prose-p:mb-3 prose-p:leading-relaxed
+                  prose-ul:mb-3 prose-ul:pl-6 prose-li:mb-1
+                  prose-ol:mb-3 prose-ol:pl-6
+                  prose-strong:text-orange-600
+                  prose-a:text-orange-500 prose-a:no-underline hover:prose-a:underline"
+                dangerouslySetInnerHTML={{ __html: overview.content }}
+              />
+              <div className="mt-6 pt-5 border-t border-gray-100 flex flex-wrap gap-3">
+                <Link
+                  to={`/bai-viet/${overview.id}`}
+                  className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all shadow-md hover:shadow-lg"
+                >
+                  Xem bài viết đầy đủ
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                  </svg>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Section divider for article list */}
+        {showOverview && !loading && (
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-1 h-7 bg-orange-500 rounded-full" />
+            <h2 className="text-xl font-bold text-gray-800">Bài viết liên quan</h2>
+          </div>
+        )}
 
         {/* Articles */}
         {loading ? (

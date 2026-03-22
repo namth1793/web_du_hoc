@@ -28,7 +28,8 @@ db.exec(`
     content TEXT DEFAULT '',
     author TEXT DEFAULT 'Admin',
     published_at TEXT DEFAULT (datetime('now','localtime')),
-    is_published INTEGER DEFAULT 1
+    is_published INTEGER DEFAULT 1,
+    is_overview INTEGER DEFAULT 0
   );
 
   CREATE TABLE IF NOT EXISTS contacts (
@@ -37,6 +38,9 @@ db.exec(`
     created_at TEXT DEFAULT (datetime('now','localtime'))
   );
 `);
+
+// Migration: thêm is_overview nếu chưa có
+try { db.exec('ALTER TABLE articles ADD COLUMN is_overview INTEGER DEFAULT 0'); } catch(e) {}
 
 // ─── SEED ────────────────────────────────────────────────────────────────────
 
@@ -102,6 +106,26 @@ const seedArticles = [
   { section:'tin-tuc', subcategory:'hoat-dong', title:'Lễ tiễn 50 lao động Việt Nam sang Đài Loan làm việc theo chương trình ABS', cover_image:'https://images.unsplash.com/photo-1529260830199-42c24126f198?w=800&q=80', excerpt:'ABS Du Học long trọng tổ chức lễ tiễn 50 lao động lên đường sang Đài Loan làm việc, đánh dấu đợt xuất cảnh lớn nhất trong quý I/2025.', content:`<h2>Đợt xuất cảnh quý I/2025</h2><p>Sáng ngày 15/3/2025, tại sân bay quốc tế Đà Nẵng, ABS Du Học đã tổ chức lễ tiễn 50 lao động chính thức lên đường sang Đài Loan làm việc theo hợp đồng 3 năm tại các nhà máy điện tử.</p><h2>Chia sẻ từ người lao động</h2><p>"Tôi rất vui và tự hào khi được lên đường hôm nay. Cảm ơn ABS đã hỗ trợ tôi từ khâu hồ sơ đến ngày xuất cảnh" - anh Nguyễn Văn Hùng, 28 tuổi, Quảng Nam chia sẻ.</p><p>ABS cam kết tiếp tục hỗ trợ người lao động trong suốt thời gian làm việc tại nước ngoài qua đường dây hotline 24/7.</p>` }
 ];
 
+const overviewArticles = [
+  // Du học - Nhật Bản
+  { section:'du-hoc', subcategory:'nhat-ban', title:'Tổng quan du học Nhật Bản – Cơ hội và lộ trình cho người Việt', cover_image:'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=1200&q=80', excerpt:'Nhật Bản là điểm đến du học hàng đầu tại châu Á với nền giáo dục đẳng cấp thế giới, văn hóa phong phú và vô số cơ hội học bổng hấp dẫn dành cho sinh viên Việt Nam.', content:`<h2>Tại sao chọn du học Nhật Bản?</h2><p>Nhật Bản là quốc gia đứng thứ 3 về kinh tế toàn cầu với nền giáo dục tiên tiến, kỷ luật và tư duy sáng tạo được đề cao. Đây là lý do hàng nghìn sinh viên Việt Nam lựa chọn Nhật Bản là bến đỗ học vấn mỗi năm.</p><h2>Điểm mạnh nổi bật</h2><ul><li><strong>Học bổng MEXT:</strong> Chính phủ Nhật tài trợ toàn phần cho hàng trăm sinh viên Việt Nam/năm</li><li><strong>Công nghệ & Kỹ thuật:</strong> Nhật Bản dẫn đầu thế giới về robot, AI, ô tô và điện tử</li><li><strong>Môi trường an toàn:</strong> Xã hội trật tự, kỷ luật, thân thiện với người nước ngoài</li><li><strong>Cơ hội việc làm:</strong> Nhiều tập đoàn lớn tuyển dụng sinh viên quốc tế sau tốt nghiệp</li></ul><h2>Chi phí tham khảo</h2><p>Chi phí du học Nhật Bản trung bình từ <strong>400–700 triệu VNĐ/năm</strong> tùy trường và thành phố. Với học bổng, con số này có thể giảm xuống còn 0 đồng.</p><h2>Ngành học phổ biến</h2><ul><li>Kỹ thuật & Công nghệ thông tin</li><li>Kinh tế & Quản trị kinh doanh</li><li>Thiết kế & Nghệ thuật</li><li>Y dược & Điều dưỡng</li><li>Ngôn ngữ Nhật Bản</li></ul><h2>Lộ trình chuẩn bị</h2><p>ABS khuyến nghị lộ trình 12–18 tháng: học tiếng Nhật đạt N4-N3 → ôn thi và nộp hồ sơ → nhận thư nhập học → xin visa → lên đường.</p>` },
+  // Du học - Hàn Quốc
+  { section:'du-hoc', subcategory:'han-quoc', title:'Tổng quan du học Hàn Quốc – Hallyu, học bổng và cơ hội nghề nghiệp', cover_image:'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=1200&q=80', excerpt:'Hàn Quốc đang trở thành điểm đến du học hot nhất châu Á nhờ làn sóng văn hóa Hallyu, học bổng GKS hào phóng và nền kinh tế phát triển mạnh mẽ.', content:`<h2>Tại sao Hàn Quốc là lựa chọn sáng suốt?</h2><p>Hàn Quốc không chỉ nổi tiếng với K-pop, K-drama mà còn là cường quốc công nghệ với Samsung, Hyundai, LG và hàng loạt startup tỷ đô. Nền giáo dục Hàn Quốc được xếp hạng top đầu châu Á.</p><h2>Điểm mạnh nổi bật</h2><ul><li><strong>Học bổng GKS:</strong> Chính phủ Hàn Quốc tài trợ toàn phần cho nghiên cứu sinh và đại học</li><li><strong>Văn hóa gần gũi:</strong> Người Hàn thân thiện, yêu thích văn hóa Việt Nam</li><li><strong>Chi phí hợp lý:</strong> Thấp hơn Nhật, Mỹ, Úc đáng kể</li><li><strong>Công nghệ:</strong> Hàn Quốc dẫn đầu về chip bán dẫn, 5G và AI</li></ul><h2>Chi phí tham khảo</h2><p>Tổng chi phí từ <strong>250–450 triệu VNĐ/năm</strong>. Nhiều trường miễn học phí kỳ đầu cho sinh viên xuất sắc.</p><h2>Ngành học phổ biến</h2><ul><li>Kinh doanh quốc tế & Marketing</li><li>Kỹ thuật điện tử & Bán dẫn</li><li>Ngôn ngữ Hàn & Phiên dịch</li><li>Thiết kế thời trang & Mỹ thuật</li><li>Truyền thông & Báo chí</li></ul><h2>Lộ trình chuẩn bị</h2><p>Học tiếng Hàn đạt TOPIK I (Level 2) → nộp hồ sơ nhập học → xin visa D-2 → bay sang Hàn. Toàn bộ lộ trình khoảng 8–12 tháng.</p>` },
+  // Du học - Đài Loan
+  { section:'du-hoc', subcategory:'dai-loan', title:'Tổng quan du học Đài Loan – Thiên đường học bổng và công nghệ châu Á', cover_image:'https://images.unsplash.com/photo-1470004914212-05527e49370b?w=1200&q=80', excerpt:'Đài Loan là điểm đến du học ít được biết đến nhưng cực kỳ hấp dẫn: học bổng nhiều, chi phí thấp, ngành CNTT và kỹ thuật hàng đầu châu Á.', content:`<h2>Tại sao Đài Loan là "ẩn số" hấp dẫn?</h2><p>Trong khi nhiều bạn trẻ đổ xô sang Nhật, Hàn, Đài Loan vẫn là điểm đến ít cạnh tranh hơn nhưng chất lượng không hề kém. Đặc biệt, TSMC – công ty chip lớn nhất thế giới – đặt trụ sở tại đây.</p><h2>Điểm mạnh nổi bật</h2><ul><li><strong>Học bổng ICDF và MOE:</strong> Hỗ trợ toàn phần hoặc bán phần cho hàng nghìn sinh viên/năm</li><li><strong>Chi phí thấp:</strong> Tổng chi phí chỉ từ 200–350 triệu VNĐ/năm</li><li><strong>Công nghiệp chip:</strong> Cơ hội thực tập và làm việc tại TSMC, MediaTek</li><li><strong>Chương trình tiếng Anh:</strong> Nhiều trường giảng dạy hoàn toàn bằng tiếng Anh</li></ul><h2>Ngành học phổ biến</h2><ul><li>Kỹ thuật điện & Bán dẫn</li><li>CNTT & Khoa học máy tính</li><li>Quản trị kinh doanh</li><li>Ngôn ngữ Trung Quốc</li></ul><h2>Chi phí tham khảo</h2><p>Học phí: <strong>40–120 triệu VNĐ/năm</strong>. Sinh hoạt phí: <strong>10–15 triệu VNĐ/tháng</strong>. Nhiều học bổng có thể giảm đáng kể.</p>` },
+  // Du học - Đức
+  { section:'du-hoc', subcategory:'duc', title:'Tổng quan du học Đức – Miễn học phí và cơ hội ở lại làm việc', cover_image:'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=1200&q=80', excerpt:'Đức là quốc gia hiếm hoi miễn hoàn toàn học phí cho sinh viên quốc tế tại hệ thống đại học công lập, cùng nền kinh tế mạnh nhất châu Âu.', content:`<h2>Tại sao Đức là lựa chọn đặc biệt?</h2><p>Không nơi nào như Đức – học miễn phí tại các trường đại học top đầu thế giới, trong khi nền kinh tế số 1 châu Âu đang thiếu hụt hàng triệu kỹ sư và chuyên gia kỹ thuật.</p><h2>Điểm mạnh nổi bật</h2><ul><li><strong>Miễn học phí:</strong> Hầu hết các bang không thu học phí từ sinh viên quốc tế</li><li><strong>Chất lượng nghiên cứu:</strong> Đức đứng top 3 thế giới về bằng sáng chế và nghiên cứu khoa học</li><li><strong>Cơ hội ở lại:</strong> Visa tìm việc sau tốt nghiệp lên đến 18 tháng</li><li><strong>BMW, Mercedes, Siemens, Bosch:</strong> Tập đoàn lớn nhận thực tập sinh quốc tế</li></ul><h2>Điều kiện quan trọng</h2><ul><li>Tiếng Đức: B2 trở lên (hoặc tiếng Anh B2+ cho chương trình dạy bằng tiếng Anh)</li><li>Chứng minh tài chính: ~934 EUR/tháng (theo quy định 2025)</li><li>Bằng tốt nghiệp THPT tương đương Abitur hoặc 1 năm đại học tại Việt Nam</li></ul><h2>Chi phí tham khảo</h2><p>Phí học kỳ (giao thông): <strong>200–350 EUR/kỳ</strong>. Sinh hoạt phí: <strong>800–1.200 EUR/tháng</strong>. Không có học phí!</p>` },
+
+  // XKL - Nhật Bản
+  { section:'xuat-khau-lao-dong', subcategory:'nhat-ban', title:'Tổng quan xuất khẩu lao động Nhật Bản – Thu nhập cao, môi trường chuyên nghiệp', cover_image:'https://images.unsplash.com/photo-1554797589-7241bb691973?w=1200&q=80', excerpt:'Nhật Bản là thị trường xuất khẩu lao động hàng đầu với mức lương hấp dẫn từ 25–45 triệu đồng/tháng, môi trường làm việc kỷ luật và cơ hội tích lũy kinh nghiệm quý giá.', content:`<h2>Thị trường lao động Nhật Bản</h2><p>Nhật Bản đang đối mặt với tình trạng già hóa dân số và thiếu hụt lao động nghiêm trọng, tạo ra cơ hội lớn cho lao động Việt Nam. Hiện có hơn 400.000 người Việt đang sinh sống và làm việc tại Nhật.</p><h2>Các chương trình tiếp nhận</h2><ul><li><strong>Thực tập sinh kỹ năng (Tokutei Ginou):</strong> 3–5 năm, lương 25–35 triệu/tháng</li><li><strong>Kỹ năng đặc định (SSW):</strong> Không giới hạn thời gian, lương 30–45 triệu/tháng</li><li><strong>Kỹ sư – Chuyên gia:</strong> Dài hạn, mức lương theo thỏa thuận</li></ul><h2>Ngành nghề tiếp nhận</h2><ul><li>Sản xuất, lắp ráp điện tử</li><li>Nông nghiệp, thủy sản</li><li>Xây dựng, hàn xì</li><li>Điều dưỡng, chăm sóc người cao tuổi</li><li>Nhà hàng, khách sạn, dịch vụ ăn uống</li></ul><h2>Điều kiện cần thiết</h2><ul><li>Độ tuổi: 18–35 (tùy ngành)</li><li>Sức khỏe tốt, không tiền án</li><li>Tiếng Nhật N4 trở lên (hoặc học tại ABS trước khi đi)</li></ul><h2>ABS hỗ trợ gì?</h2><p>ABS đồng hành từ A đến Z: tư vấn ngành nghề phù hợp, dạy tiếng Nhật, chuẩn bị hồ sơ, phỏng vấn với đơn vị Nhật, xuất cảnh và hỗ trợ trong suốt thời gian làm việc.</p>` },
+  // XKL - Hàn Quốc
+  { section:'xuat-khau-lao-dong', subcategory:'han-quoc', title:'Tổng quan xuất khẩu lao động Hàn Quốc – EPS và cơ hội thu nhập đỉnh cao', cover_image:'https://images.unsplash.com/photo-1601042879364-f3947d3f9c16?w=1200&q=80', excerpt:'Hàn Quốc là thị trường lao động với mức lương thuộc hàng cao nhất châu Á, thu nhập trung bình 35–55 triệu đồng/tháng qua chương trình EPS chính thống.', content:`<h2>Chương trình EPS là gì?</h2><p>EPS (Employment Permit System) là chương trình lao động hợp tác giữa Chính phủ Việt Nam và Hàn Quốc, đảm bảo quyền lợi cao nhất cho người lao động. Đây là kênh chính thống, an toàn và chi phí thấp nhất.</p><h2>Thu nhập hấp dẫn</h2><ul><li>Lương tối thiểu theo luật Hàn (2025): ~2.080.000 KRW/tháng (~37 triệu VNĐ)</li><li>Làm thêm giờ, ca đêm, thưởng: tổng thu nhập có thể đạt 50–60 triệu/tháng</li><li>Bảo hiểm y tế, tai nạn lao động đầy đủ theo luật Hàn Quốc</li></ul><h2>Ngành nghề tiếp nhận</h2><ul><li>Sản xuất công nghiệp (điện tử, cơ khí, nhựa)</li><li>Xây dựng</li><li>Nông nghiệp, chăn nuôi</li><li>Ngư nghiệp</li></ul><h2>Điều kiện tham gia</h2><ul><li>Thi EPS-TOPIK (tiếng Hàn cơ bản) – ABS có lớp ôn thi</li><li>Sức khỏe đạt chuẩn theo quy định Bộ LĐ Hàn</li><li>Không có hồ sơ vi phạm tại Hàn trước đây</li></ul><h2>ABS hỗ trợ gì?</h2><p>ABS là đơn vị được cấp phép hỗ trợ EPS, giúp bạn ôn thi EPS-TOPIK, chuẩn bị hồ sơ hợp lệ và theo dõi kết quả từ Trung tâm Manpower Việt Nam.</p>` },
+  // XKL - Đài Loan
+  { section:'xuat-khau-lao-dong', subcategory:'dai-loan', title:'Tổng quan xuất khẩu lao động Đài Loan – Ổn định, chi phí thấp, gần Việt Nam', cover_image:'https://images.unsplash.com/photo-1583422409516-2895a77efded?w=1200&q=80', excerpt:'Đài Loan là thị trường xuất khẩu lao động truyền thống của Việt Nam với chi phí thấp, thủ tục đơn giản và cộng đồng người Việt lớn mạnh.', content:`<h2>Vì sao Đài Loan vẫn là lựa chọn ổn định?</h2><p>Với hơn 200.000 lao động Việt Nam đang làm việc, Đài Loan là thị trường quen thuộc, có cộng đồng hỗ trợ lớn, gần nhà và chi phí đi lại hợp lý.</p><h2>Thu nhập và đãi ngộ</h2><ul><li>Lương tối thiểu Đài Loan (2025): 27.470 NTD/tháng (~22 triệu VNĐ)</li><li>Làm thêm giờ: tổng thu nhập 25–35 triệu VNĐ/tháng</li><li>Chủ sử dụng lao động hỗ trợ nhà ở, ăn uống (tùy hợp đồng)</li></ul><h2>Ngành nghề tiếp nhận</h2><ul><li>Công nhân sản xuất (điện tử, may mặc, nhựa)</li><li>Giúp việc gia đình, chăm sóc người già</li><li>Xây dựng, cơ khí</li><li>Nông nghiệp</li></ul><h2>Điều kiện tham gia</h2><ul><li>Độ tuổi: 18–45 (tùy ngành)</li><li>Sức khỏe tốt, không tiền án</li><li>Học khóa định hướng trước khi xuất cảnh</li></ul><h2>Lợi thế đặc biệt</h2><p>Bay thẳng 1.5 tiếng từ Đà Nẵng, cộng đồng Việt lớn, dễ thích nghi. Nhiều lao động gia hạn hợp đồng nhiều lần do hài lòng với môi trường làm việc.</p>` },
+  // XKL - Châu Úc
+  { section:'xuat-khau-lao-dong', subcategory:'chau-uc', title:'Tổng quan xuất khẩu lao động Châu Úc – Thu nhập đỉnh, visa hợp pháp', cover_image:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80', excerpt:'Châu Úc là thị trường lao động có mức lương cao nhất trong các nước tiếp nhận lao động Việt Nam, với thu nhập từ 50–120 triệu đồng/tháng tùy ngành nghề.', content:`<h2>Thị trường lao động Úc</h2><p>Úc có mức lương tối thiểu cao nhất thế giới (~23 AUD/giờ = ~380.000 VNĐ/giờ). Nước Úc đang thiếu hụt lao động nghiêm trọng trong nhiều ngành sau đại dịch.</p><h2>Các visa lao động phổ biến</h2><ul><li><strong>Visa 417 (Working Holiday):</strong> 18–35 tuổi, làm việc hợp pháp 1–3 năm</li><li><strong>Visa 485 (Sau tốt nghiệp):</strong> Dành cho sinh viên sau khi học xong</li><li><strong>Visa 482 (TSS):</strong> Visa lao động tay nghề do chủ bảo lãnh, 2–4 năm</li><li><strong>Visa 494/191:</strong> Dành cho vùng nông thôn, dễ PR hơn</li></ul><h2>Thu nhập tham khảo</h2><ul><li>Công nhân nông trại: 25–35 AUD/giờ (~400.000–580.000 VNĐ)</li><li>Thợ hàn, cơ khí: 35–50 AUD/giờ</li><li>Điều dưỡng, y tá: 35–55 AUD/giờ</li><li>Công nghệ thông tin: 80.000–120.000 AUD/năm</li></ul><h2>Ngành nghề thiếu hụt tại Úc</h2><ul><li>Điều dưỡng và chăm sóc sức khỏe</li><li>Kỹ thuật xây dựng, hàn xì</li><li>CNTT và an ninh mạng</li><li>Lái xe tải, vận hành máy móc</li><li>Nông nghiệp và chế biến thực phẩm</li></ul><h2>ABS hỗ trợ gì?</h2><p>ABS tư vấn loại visa phù hợp nhất với hồ sơ của bạn, hỗ trợ hoàn thiện hồ sơ tiếng Anh, kết nối nhà tuyển dụng Úc và hỗ trợ 24/7 trong suốt thời gian làm việc.</p>` }
+];
+
 // Seed chỉ khi bảng trống
 const count = db.prepare('SELECT COUNT(*) as c FROM articles').get();
 if (count.c === 0) {
@@ -114,6 +138,20 @@ if (count.c === 0) {
   });
   insertMany(seedArticles);
   console.log(`✅ Seeded ${seedArticles.length} articles`);
+}
+
+// Seed overview articles nếu chưa có
+const overviewCount = db.prepare('SELECT COUNT(*) as c FROM articles WHERE is_overview = 1').get();
+if (overviewCount.c === 0) {
+  const insertOv = db.prepare(`
+    INSERT INTO articles (title, section, subcategory, cover_image, excerpt, content, is_overview, published_at)
+    VALUES (@title, @section, @subcategory, @cover_image, @excerpt, @content, 1, datetime('now','localtime'))
+  `);
+  const insertMany = db.transaction((articles) => {
+    for (const a of articles) insertOv.run(a);
+  });
+  insertMany(overviewArticles);
+  console.log(`✅ Seeded ${overviewArticles.length} overview articles`);
 }
 
 // ─── MIDDLEWARE ───────────────────────────────────────────────────────────────
@@ -132,13 +170,24 @@ function requireAdmin(req, res, next) {
 
 app.get('/api/articles', (req, res) => {
   const { section, subcategory } = req.query;
-  let sql = 'SELECT * FROM articles WHERE is_published = 1';
+  let sql = 'SELECT * FROM articles WHERE is_published = 1 AND is_overview = 0';
   const params = [];
   if (section) { sql += ' AND section = ?'; params.push(section); }
   if (subcategory) { sql += ' AND subcategory = ?'; params.push(subcategory); }
   sql += ' ORDER BY published_at DESC';
   const rows = db.prepare(sql).all(...params);
   res.json({ success: true, data: rows });
+});
+
+app.get('/api/articles/overview', (req, res) => {
+  const { section, subcategory } = req.query;
+  let sql = 'SELECT * FROM articles WHERE is_overview = 1 AND is_published = 1';
+  const params = [];
+  if (section) { sql += ' AND section = ?'; params.push(section); }
+  if (subcategory) { sql += ' AND subcategory = ?'; params.push(subcategory); }
+  sql += ' LIMIT 1';
+  const row = db.prepare(sql).get(...params);
+  res.json({ success: true, data: row || null });
 });
 
 app.get('/api/articles/all', (req, res) => {
@@ -160,24 +209,24 @@ app.get('/api/articles/:id', (req, res) => {
 });
 
 app.post('/api/articles', requireAdmin, (req, res) => {
-  const { title, section, subcategory, cover_image, excerpt, content, is_published } = req.body;
+  const { title, section, subcategory, cover_image, excerpt, content, is_published, is_overview } = req.body;
   if (!title || !section || !subcategory) return res.status(400).json({ success: false, message: 'Thiếu thông tin bắt buộc' });
   const result = db.prepare(`
-    INSERT INTO articles (title, section, subcategory, cover_image, excerpt, content, is_published, published_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now','localtime'))
-  `).run(title, section, subcategory, cover_image || '', excerpt || '', content || '', is_published ?? 1);
+    INSERT INTO articles (title, section, subcategory, cover_image, excerpt, content, is_published, is_overview, published_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now','localtime'))
+  `).run(title, section, subcategory, cover_image || '', excerpt || '', content || '', is_published ?? 1, is_overview ?? 0);
   const newArticle = db.prepare('SELECT * FROM articles WHERE id = ?').get(result.lastInsertRowid);
   res.json({ success: true, data: newArticle });
 });
 
 app.put('/api/articles/:id', requireAdmin, (req, res) => {
-  const { title, section, subcategory, cover_image, excerpt, content, is_published } = req.body;
+  const { title, section, subcategory, cover_image, excerpt, content, is_published, is_overview } = req.body;
   const existing = db.prepare('SELECT id FROM articles WHERE id = ?').get(req.params.id);
   if (!existing) return res.status(404).json({ success: false, message: 'Không tìm thấy bài viết' });
   db.prepare(`
-    UPDATE articles SET title=?, section=?, subcategory=?, cover_image=?, excerpt=?, content=?, is_published=?
+    UPDATE articles SET title=?, section=?, subcategory=?, cover_image=?, excerpt=?, content=?, is_published=?, is_overview=?
     WHERE id=?
-  `).run(title, section, subcategory, cover_image || '', excerpt || '', content || '', is_published ?? 1, req.params.id);
+  `).run(title, section, subcategory, cover_image || '', excerpt || '', content || '', is_published ?? 1, is_overview ?? 0, req.params.id);
   const updated = db.prepare('SELECT * FROM articles WHERE id = ?').get(req.params.id);
   res.json({ success: true, data: updated });
 });

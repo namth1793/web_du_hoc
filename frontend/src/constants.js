@@ -29,8 +29,8 @@ export const SECTIONS = {
 };
 
 export const GIOI_THIEU_MENU = [
-  { label: 'Giới thiệu chung', href: '#intro' },
-  { label: 'Tầm nhìn, Sứ mệnh, Giá trị cốt lõi', href: '#values' },
-  { label: 'Cơ cấu tổ chức', href: '#org' },
-  { label: 'Hồ sơ pháp lý', href: '#legal' }
+  { label: 'Giới thiệu chung', to: '/gioi-thieu/gioi-thieu-chung' },
+  { label: 'Tầm nhìn, Sứ mệnh, Giá trị cốt lõi', to: '/gioi-thieu/tam-nhin-su-menh' },
+  { label: 'Cơ cấu tổ chức', to: '/gioi-thieu/co-cau-to-chuc' },
+  { label: 'Hồ sơ pháp lý', to: '/gioi-thieu/ho-so-phap-ly' }
 ];

@@ -20,6 +20,7 @@ import Footer from './components/Footer';
 import ArticleList from './pages/ArticleList';
 import ArticleDetail from './pages/ArticleDetail';
 import Admin from './pages/Admin';
+import GioiThieu from './pages/GioiThieu';
 
 function HomePage() {
   useEffect(() => {
@@ -57,6 +58,7 @@ function Layout() {
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/gioi-thieu/:slug" element={<GioiThieu />} />
           <Route path="/du-hoc/:subcategory" element={<ArticleList section="du-hoc" />} />
           <Route path="/xuat-khau-lao-dong/:subcategory" element={<ArticleList section="xuat-khau-lao-dong" />} />
           <Route path="/tin-tuc/:subcategory" element={<ArticleList section="tin-tuc" />} />
