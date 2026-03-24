@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../lib/api';
 import { SECTIONS } from '../constants';
-import { lazy, Suspense } from 'react';
 const RichTextEditor = lazy(() => import('../components/RichTextEditor'));
 
 const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
@@ -31,7 +30,7 @@ const ALL_SUBCATEGORIES = Object.entries(SECTIONS).flatMap(([section, s]) =>
   }))
 );
 
-const emptyForm = { title:'', section:'du-hoc', subcategory:'nhat-ban', cover_image:'', excerpt:'', content:'', is_published:1 };
+const emptyForm = { title:'', section:'du-hoc', subcategory:'nhat-ban', cover_image:'', excerpt:'', content:'', is_published:1, published_at: new Date().toISOString().slice(0,10) };
 
 function LoginScreen({ onLogin }) {
   const [pwd, setPwd] = useState('');
@@ -86,12 +85,49 @@ function LoginScreen({ onLogin }) {
   );
 }
 
+
+function PreviewModal({ form, onClose }) {
+  return (
+    <div className="fixed inset-0 z-[60] flex flex-col bg-white overflow-y-auto">
+      <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between shadow-sm z-10">
+        <span className="text-sm font-semibold text-gray-700">Xem trước bài viết</span>
+        <button onClick={onClose}
+          className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/></svg>
+          Đóng preview
+        </button>
+      </div>
+      <div className="max-w-3xl mx-auto w-full px-4 py-10">
+        {form.cover_image && (
+          <img src={form.cover_image} alt={form.title}
+            className="w-full h-72 object-cover rounded-2xl mb-8 shadow-md" />
+        )}
+        <h1 className="text-3xl md:text-4xl font-black text-gray-900 mb-5 leading-tight">{form.title || 'Tiêu đề bài viết'}</h1>
+        {form.excerpt && (
+          <blockquote className="border-l-4 border-orange-400 pl-5 py-2 mb-6 bg-orange-50 rounded-r-xl">
+            <p className="text-gray-700 italic text-base leading-relaxed">{form.excerpt}</p>
+          </blockquote>
+        )}
+        {form.content ? (
+          <div
+            className="prose prose-lg max-w-none prose-headings:text-gray-800 prose-a:text-orange-500 prose-strong:text-gray-800"
+            dangerouslySetInnerHTML={{ __html: form.content }}
+          />
+        ) : (
+          <p className="text-gray-400 italic">Chưa có nội dung...</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function ArticleModal({ article, onSave, onClose }) {
   const [form, setForm] = useState(article || emptyForm);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
+  const [showPreview, setShowPreview] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleImageUpload = async (e) => {
@@ -143,6 +179,7 @@ function ArticleModal({ article, onSave, onClose }) {
   const currentCatValue = `${form.section}|${form.subcategory}`;
 
   return (
+    {showPreview && <PreviewModal form={form} onClose={() => setShowPreview(false)} />}
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
       <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl my-8">
         <div className="p-6 border-b border-gray-100 flex items-center justify-between">
@@ -222,6 +259,12 @@ function ArticleModal({ article, onSave, onClose }) {
           </div>
 
           <div>
+            <label className="text-sm font-semibold text-gray-700 mb-1.5 block">Ngày đăng</label>
+            <input type="date" name="published_at" value={form.published_at || new Date().toISOString().slice(0,10)} onChange={handleChange}
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all"/>
+          </div>
+
+          <div>
             <label className="text-sm font-semibold text-gray-700 mb-1.5 block">Nội dung</label>
             <Suspense fallback={<div className="h-52 border border-gray-200 rounded-xl bg-gray-50 animate-pulse" />}>
               <RichTextEditor
@@ -240,6 +283,11 @@ function ArticleModal({ article, onSave, onClose }) {
           {error && <p className="text-red-500 text-sm bg-red-50 px-3 py-2 rounded-lg">{error}</p>}
 
           <div className="flex gap-3 pt-2">
+            <button type="button" onClick={() => setShowPreview(true)}
+              className="px-5 py-3 border border-blue-200 text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-xl font-semibold text-sm transition-all flex items-center gap-2">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+              Xem trước
+            </button>
             <button type="submit" disabled={loading}
               className="flex-1 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-sm transition-all shadow-md flex items-center justify-center gap-2">
               {loading ? <><span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />Đang lưu...</> : (isEdit ? '💾 Lưu thay đổi' : '✅ Thêm bài viết')}
@@ -297,7 +345,17 @@ export default function Admin() {
   const [filterSection, setFilterSection] = useState('');
   const [filterSub, setFilterSub] = useState('');
   const [search, setSearch] = useState('');
+  const [filterStatus, setFilterStatus] = useState('');
   const [modal, setModal] = useState(null); // null | { type:'add'|'edit'|'delete', article? }
+  const [activeTab, setActiveTab] = useState('articles');
+  const [bannerForm, setBannerForm] = useState({
+    badge_text: '', country: '', tagline: '', description: '', cta_text: '',
+    scholarship_pct: '', scholarship_label: '',
+    stat1_num: '', stat1_label: '', stat2_num: '', stat2_label: '', stat3_num: '', stat3_label: '',
+    img_main: '', img_secondary: '', img_tertiary: ''
+  });
+  const [bannerLoading, setBannerLoading] = useState(false);
+  const [bannerSaved, setBannerSaved] = useState(false);
 
   const fetchArticles = () => {
     setLoading(true);
@@ -308,6 +366,25 @@ export default function Admin() {
   };
 
   useEffect(() => { if (token) fetchArticles(); }, [token, filterSection, filterSub]);
+  useEffect(() => {
+    if (token && activeTab === 'banner') {
+      api.get('/api/settings/banner')
+        .then(r => { if (r.data && r.data.data) setBannerForm(f => ({ ...f, ...r.data.data })); })
+        .catch(() => {});
+    }
+  }, [token, activeTab]);
+
+  const handleBannerSave = async () => {
+    setBannerLoading(true);
+    setBannerSaved(false);
+    try {
+      const t = localStorage.getItem('abs_admin');
+      await api.put('/api/settings/banner', bannerForm, { headers: { Authorization: `Bearer ${t}` } });
+      setBannerSaved(true);
+      setTimeout(() => setBannerSaved(false), 3000);
+    } catch {}
+    finally { setBannerLoading(false); }
+  };
 
   const handleLogin = (t) => setToken(t);
   const handleLogout = () => { localStorage.removeItem('abs_admin'); setToken(''); };
@@ -317,9 +394,12 @@ export default function Admin() {
   const sectionOptions = Object.entries(SECTIONS);
   const subOptions = filterSection ? Object.entries(SECTIONS[filterSection]?.subcategories || {}) : [];
 
-  const filtered = articles.filter(a =>
-    !search || a.title.toLowerCase().includes(search.toLowerCase()) || a.excerpt.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = articles.filter(a => {
+    if (search && !a.title.toLowerCase().includes(search.toLowerCase()) && !a.excerpt.toLowerCase().includes(search.toLowerCase())) return false;
+    if (filterStatus === 'published' && !a.is_published) return false;
+    if (filterStatus === 'draft' && a.is_published) return false;
+    return true;
+  });
 
   const getSectionLabel = (section, sub) => {
     const sl = SECTIONS[section]?.label || section;
@@ -343,8 +423,18 @@ export default function Admin() {
               </div>
             </Link>
             <div>
-              <h1 className="font-bold text-gray-800 text-lg leading-none">Quản trị bài viết</h1>
-              <p className="text-xs text-gray-400 mt-0.5">ABS Du Học Admin Panel</p>
+              <h1 className="font-bold text-gray-800 text-lg leading-none">Admin Panel</h1>
+              <p className="text-xs text-gray-400 mt-0.5">ABS Du Học</p>
+            </div>
+            <div className="flex items-center gap-1 ml-4 bg-gray-100 rounded-xl p-1">
+              <button onClick={() => setActiveTab('articles')}
+                className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all ${activeTab === 'articles' ? 'bg-white text-orange-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
+                Bài viết
+              </button>
+              <button onClick={() => setActiveTab('banner')}
+                className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all ${activeTab === 'banner' ? 'bg-white text-orange-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
+                Banner trang chủ
+              </button>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -362,7 +452,57 @@ export default function Admin() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Stats cards */}
+        {activeTab === 'banner' ? (
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 max-w-2xl">
+            <h2 className="text-lg font-bold text-gray-800 mb-6">Chỉnh sửa banner trang chủ</h2>
+            <div className="space-y-4">
+              {[
+                { key: 'badge_text', label: 'Badge text' },
+                { key: 'country', label: 'Tên quốc gia / điểm đến' },
+                { key: 'tagline', label: 'Khẩu hiệu (tagline)' },
+                { key: 'cta_text', label: 'Nút CTA' },
+                { key: 'scholarship_pct', label: 'Học bổng (%)' },
+                { key: 'scholarship_label', label: 'Nhãn học bổng' },
+                { key: 'stat1_num', label: 'Thống kê 1 - Số' },
+                { key: 'stat1_label', label: 'Thống kê 1 - Nhãn' },
+                { key: 'stat2_num', label: 'Thống kê 2 - Số' },
+                { key: 'stat2_label', label: 'Thống kê 2 - Nhãn' },
+                { key: 'stat3_num', label: 'Thống kê 3 - Số' },
+                { key: 'stat3_label', label: 'Thống kê 3 - Nhãn' },
+                { key: 'img_main', label: 'URL ảnh chính' },
+                { key: 'img_secondary', label: 'URL ảnh phụ' },
+                { key: 'img_tertiary', label: 'URL ảnh thứ 3' },
+              ].map(({ key, label }) => (
+                <div key={key}>
+                  <label className="text-sm font-semibold text-gray-700 mb-1.5 block">{label}</label>
+                  <input
+                    value={bannerForm[key] || ''}
+                    onChange={e => setBannerForm(f => ({ ...f, [key]: e.target.value }))}
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all"
+                  />
+                </div>
+              ))}
+              <div>
+                <label className="text-sm font-semibold text-gray-700 mb-1.5 block">Mô tả</label>
+                <textarea
+                  value={bannerForm.description || ''}
+                  onChange={e => setBannerForm(f => ({ ...f, description: e.target.value }))}
+                  rows={3}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all resize-none"
+                />
+              </div>
+              <div className="flex items-center gap-3 pt-2">
+                <button onClick={handleBannerSave} disabled={bannerLoading}
+                  className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-md flex items-center gap-2">
+                  {bannerLoading ? <><span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />Đang lưu...</> : '💾 Lưu banner'}
+                </button>
+                {bannerSaved && <span className="text-green-600 text-sm font-semibold">Đã lưu thành công!</span>}
+              </div>
+            </div>
+          </div>
+        ) : (
+        <>
+        {/* Stats cards */
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[
             { label: 'Tổng bài viết', value: articles.length, color: 'from-orange-400 to-orange-500', icon: '📝' },
@@ -403,6 +543,13 @@ export default function Admin() {
                 {subOptions.map(([k, l]) => <option key={k} value={k}>{l}</option>)}
               </select>
             )}
+
+            <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)}
+              className="px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 bg-white">
+              <option value="">Tất cả trạng thái</option>
+              <option value="published">Đã xuất bản</option>
+              <option value="draft">Chưa xuất bản</option>
+            </select>
 
             <button onClick={() => setModal({ type: 'add' })}
               className="ml-auto flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-md hover:shadow-lg">
@@ -472,6 +619,21 @@ export default function Admin() {
                             className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="Xem">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                           </Link>
+                          <button
+                            onClick={async () => {
+                              try {
+                                await api.put(`/api/articles/${a.id}`, { ...a, is_published: a.is_published ? 0 : 1 }, { headers: { Authorization: `Bearer ${token}` } });
+                                fetchArticles();
+                              } catch {}
+                            }}
+                            className={`p-2 rounded-lg transition-colors ${a.is_published ? 'text-green-500 hover:text-gray-400 hover:bg-gray-50' : 'text-gray-400 hover:text-green-500 hover:bg-green-50'}`}
+                            title={a.is_published ? 'Ẩn bài' : 'Hiện bài'}>
+                            {a.is_published ? (
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            ) : (
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>
+                            )}
+                          </button>
                           <button onClick={() => setModal({ type: 'edit', article: a })}
                             className="p-2 text-gray-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors" title="Sửa">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
@@ -495,6 +657,9 @@ export default function Admin() {
             </div>
           )}
         </div>
+      </div>
+        </>
+        )}
       </div>
     </div>
   );

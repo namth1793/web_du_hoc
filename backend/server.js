@@ -42,6 +42,29 @@ db.exec(`
 // Migration: thêm is_overview nếu chưa có
 try { db.exec('ALTER TABLE articles ADD COLUMN is_overview INTEGER DEFAULT 0'); } catch(e) {}
 
+// ─── SITE SETTINGS TABLE ─────────────────────────────────────────────────────
+try {
+  db.exec();
+} catch(e) {}
+
+const defaultBanner = {
+  badge_text: 'Vươn tầm thế hệ trẻ Việt',
+  country: 'AUSTRALIA',
+  tagline: 'Du học',
+  description: 'Với phương châm "Vươn tầm thế hệ trẻ Việt", ABS hỗ trợ học sinh, sinh viên trong suốt quá trình du học Úc – từ lựa chọn trường, xin visa đến tìm kiếm việc làm tại Úc.',
+  cta_text: 'Tư vấn ngay',
+  scholarship_pct: '20',
+  scholarship_label: 'Du học Úc',
+  stat1_num: '20+', stat1_label: 'Năm kinh nghiệm',
+  stat2_num: '5000+', stat2_label: 'Du học sinh',
+  stat3_num: '100%', stat3_label: 'Cam kết việc làm',
+  img_main: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80',
+  img_secondary: 'https://images.unsplash.com/photo-1529390079861-591de354faf5?w=400&q=80',
+  img_tertiary: 'https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=300&q=80'
+};
+const existingBanner = db.prepare("SELECT value FROM site_settings WHERE key='banner'").get();
+if (!existingBanner) db.prepare("INSERT INTO site_settings (key,value) VALUES (?,?)").run('banner', JSON.stringify(defaultBanner));
+
 // ─── SEED ────────────────────────────────────────────────────────────────────
 
 const seedArticles = [
@@ -209,24 +232,25 @@ app.get('/api/articles/:id', (req, res) => {
 });
 
 app.post('/api/articles', requireAdmin, (req, res) => {
-  const { title, section, subcategory, cover_image, excerpt, content, is_published, is_overview } = req.body;
+  const { title, section, subcategory, cover_image, excerpt, content, is_published, is_overview, published_at } = req.body;
   if (!title || !section || !subcategory) return res.status(400).json({ success: false, message: 'Thiếu thông tin bắt buộc' });
+  const pubDate = published_at || null;
   const result = db.prepare(`
     INSERT INTO articles (title, section, subcategory, cover_image, excerpt, content, is_published, is_overview, published_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now','localtime'))
-  `).run(title, section, subcategory, cover_image || '', excerpt || '', content || '', is_published ?? 1, is_overview ?? 0);
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, COALESCE(?, datetime('now','localtime')))
+  `).run(title, section, subcategory, cover_image || '', excerpt || '', content || '', is_published ?? 1, is_overview ?? 0, pubDate);
   const newArticle = db.prepare('SELECT * FROM articles WHERE id = ?').get(result.lastInsertRowid);
   res.json({ success: true, data: newArticle });
 });
 
 app.put('/api/articles/:id', requireAdmin, (req, res) => {
-  const { title, section, subcategory, cover_image, excerpt, content, is_published, is_overview } = req.body;
+  const { title, section, subcategory, cover_image, excerpt, content, is_published, is_overview, published_at } = req.body;
   const existing = db.prepare('SELECT id FROM articles WHERE id = ?').get(req.params.id);
   if (!existing) return res.status(404).json({ success: false, message: 'Không tìm thấy bài viết' });
   db.prepare(`
-    UPDATE articles SET title=?, section=?, subcategory=?, cover_image=?, excerpt=?, content=?, is_published=?, is_overview=?
+    UPDATE articles SET title=?, section=?, subcategory=?, cover_image=?, excerpt=?, content=?, is_published=?, is_overview=?, published_at=COALESCE(?,published_at)
     WHERE id=?
-  `).run(title, section, subcategory, cover_image || '', excerpt || '', content || '', is_published ?? 1, is_overview ?? 0, req.params.id);
+  `).run(title, section, subcategory, cover_image || '', excerpt || '', content || '', is_published ?? 1, is_overview ?? 0, published_at || null, req.params.id);
   const updated = db.prepare('SELECT * FROM articles WHERE id = ?').get(req.params.id);
   res.json({ success: true, data: updated });
 });
@@ -265,6 +289,19 @@ app.post('/api/contact', (req, res) => {
   if (!name || !phone) return res.status(400).json({ success: false, message: 'Vui lòng điền họ tên và số điện thoại.' });
   db.prepare('INSERT INTO contacts (name,phone,email,message) VALUES (?,?,?,?)').run(name, phone, email, message);
   res.json({ success: true, message: 'Chúng tôi đã nhận được thông tin. Tư vấn viên sẽ liên hệ bạn sớm nhất!' });
+});
+
+
+app.get('/api/settings/banner', (req, res) => {
+  const row = db.prepare("SELECT value FROM site_settings WHERE key='banner'").get();
+  if (!row) return res.json({ success: true, data: {} });
+  res.json({ success: true, data: JSON.parse(row.value) });
+});
+
+app.put('/api/settings/banner', requireAdmin, (req, res) => {
+  const banner = req.body;
+  db.prepare("INSERT OR REPLACE INTO site_settings (key,value) VALUES ('banner',?)").run(JSON.stringify(banner));
+  res.json({ success: true, data: banner });
 });
 
 app.get('/', (req, res) => res.json({ message: 'ABS Du Học API v2 - port ' + PORT }));

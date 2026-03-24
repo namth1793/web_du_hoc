@@ -1,4 +1,31 @@
+import { useState, useEffect } from 'react';
+import api from '../lib/api';
+
+const defaultBanner = {
+  badge_text: 'Vươn tầm thế hệ trẻ Việt',
+  country: 'AUSTRALIA',
+  tagline: 'Du học',
+  description: 'Với phương châm "Vươn tầm thế hệ trẻ Việt", ABS hỗ trợ học sinh, sinh viên trong suốt quá trình du học Úc – từ lựa chọn trường, xin visa đến tìm kiếm việc làm tại Úc.',
+  cta_text: 'Tư vấn ngay',
+  scholarship_pct: '20',
+  scholarship_label: 'Du học Úc',
+  stat1_num: '20+', stat1_label: 'Năm kinh nghiệm',
+  stat2_num: '5000+', stat2_label: 'Du học sinh',
+  stat3_num: '100%', stat3_label: 'Cam kết việc làm',
+  img_main: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80',
+  img_secondary: 'https://images.unsplash.com/photo-1529390079861-591de354faf5?w=400&q=80',
+  img_tertiary: 'https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=300&q=80'
+};
+
 export default function Hero() {
+  const [banner, setBanner] = useState(defaultBanner);
+
+  useEffect(() => {
+    api.get('/api/settings/banner')
+      .then(r => { if (r.data?.data && Object.keys(r.data.data).length > 0) setBanner(r.data.data); })
+      .catch(() => {});
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-24" aria-label="Hero">
       {/* Background gradient */}
@@ -39,14 +66,14 @@ export default function Hero() {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white px-4 py-2 rounded-full text-sm font-medium">
               <span className="w-2 h-2 bg-yellow-300 rounded-full animate-pulse" />
-              Vươn tầm thế hệ trẻ Việt
+              {banner.badge_text}
             </div>
 
             {/* Main heading */}
             <div>
-              <p className="text-xl md:text-2xl font-semibold opacity-90 mb-1">Du học</p>
+              <p className="text-xl md:text-2xl font-semibold opacity-90 mb-1">{banner.tagline}</p>
               <h1 className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-none drop-shadow-lg">
-                AUSTRALIA
+                {banner.country}
               </h1>
               <div className="mt-3 flex flex-wrap gap-3 text-sm font-medium">
                 <span className="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-1.5">
@@ -66,7 +93,7 @@ export default function Hero() {
 
             {/* Description */}
             <p className="text-white/90 text-base md:text-lg max-w-md leading-relaxed">
-              Với phương châm "Vươn tầm thế hệ trẻ Việt", ABS hỗ trợ học sinh, sinh viên trong suốt quá trình du học Úc – từ lựa chọn trường, xin visa đến tìm kiếm việc làm tại Úc.
+              {banner.description}
             </p>
 
             {/* CTAs */}
@@ -75,7 +102,7 @@ export default function Hero() {
                 href="#contact"
                 className="group bg-orange-500 hover:bg-orange-600 text-white px-8 py-3.5 rounded-full font-bold text-base shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center gap-2"
               >
-                Tư vấn ngay
+                {banner.cta_text}
                 <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
@@ -91,9 +118,9 @@ export default function Hero() {
             {/* Quick stats */}
             <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/20">
               {[
-                { num: '20+', label: 'Năm kinh nghiệm' },
-                { num: '5000+', label: 'Du học sinh' },
-                { num: '100%', label: 'Cam kết việc làm' }
+                { num: banner.stat1_num, label: banner.stat1_label },
+                { num: banner.stat2_num, label: banner.stat2_label },
+                { num: banner.stat3_num, label: banner.stat3_label }
               ].map(s => (
                 <div key={s.label} className="text-center">
                   <div className="text-2xl font-black">{s.num}</div>
@@ -107,16 +134,16 @@ export default function Hero() {
           <div className="relative hidden lg:flex justify-center items-center">
             {/* Scholarship badge */}
             <div className="absolute top-0 right-0 z-20 bg-gradient-to-br from-yellow-400 to-orange-500 text-white rounded-2xl p-4 shadow-2xl text-center animate-bounce-slow">
-              <div className="text-3xl font-black">20%</div>
+              <div className="text-3xl font-black">{banner.scholarship_pct}%</div>
               <div className="text-xs font-bold">HỌC BỔNG</div>
-              <div className="text-xs opacity-80">Du học Úc</div>
+              <div className="text-xs opacity-80">{banner.scholarship_label}</div>
             </div>
 
             {/* Main student image */}
             <div className="relative z-10">
               <div className="w-72 h-96 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/50">
                 <img
-                  src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80"
+                  src={banner.img_main}
                   alt="Du học sinh Úc"
                   className="w-full h-full object-cover"
                   loading="eager"
@@ -126,7 +153,7 @@ export default function Hero() {
               {/* Secondary image */}
               <div className="absolute -bottom-8 -right-10 w-44 h-56 rounded-2xl overflow-hidden shadow-2xl border-4 border-white z-20">
                 <img
-                  src="https://images.unsplash.com/photo-1529390079861-591de354faf5?w=400&q=80"
+                  src={banner.img_secondary}
                   alt="Sinh viên vui vẻ"
                   className="w-full h-full object-cover"
                   loading="eager"
@@ -136,7 +163,7 @@ export default function Hero() {
               {/* Third image */}
               <div className="absolute -top-6 -left-10 w-36 h-36 rounded-2xl overflow-hidden shadow-xl border-4 border-white z-20">
                 <img
-                  src="https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=300&q=80"
+                  src={banner.img_tertiary}
                   alt="Sinh viên tốt nghiệp"
                   className="w-full h-full object-cover"
                   loading="lazy"
