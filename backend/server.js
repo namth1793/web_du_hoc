@@ -43,9 +43,12 @@ db.exec(`
 try { db.exec('ALTER TABLE articles ADD COLUMN is_overview INTEGER DEFAULT 0'); } catch(e) {}
 
 // ─── SITE SETTINGS TABLE ─────────────────────────────────────────────────────
-try {
-  db.exec();
-} catch(e) {}
+db.exec(`
+  CREATE TABLE IF NOT EXISTS site_settings (
+    key TEXT PRIMARY KEY,
+    value TEXT
+  );
+`);
 
 const defaultBanner = {
   badge_text: 'Vươn tầm thế hệ trẻ Việt',
