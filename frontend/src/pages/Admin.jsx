@@ -179,6 +179,7 @@ function ArticleModal({ article, onSave, onClose }) {
   const currentCatValue = `${form.section}|${form.subcategory}`;
 
   return (
+    <>
     {showPreview && <PreviewModal form={form} onClose={() => setShowPreview(false)} />}
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
       <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl my-8">
@@ -300,6 +301,7 @@ function ArticleModal({ article, onSave, onClose }) {
         </form>
       </div>
     </div>
+    </>
   );
 }
 
