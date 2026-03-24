@@ -504,7 +504,7 @@ export default function Admin() {
           </div>
         ) : (
         <>
-        {/* Stats cards */
+        {/* Stats cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[
             { label: 'Tổng bài viết', value: articles.length, color: 'from-orange-400 to-orange-500', icon: '📝' },
