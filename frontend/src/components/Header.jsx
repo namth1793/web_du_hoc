@@ -85,7 +85,6 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState(null);
   const [scrolled, setScrolled] = useState(false);
-  const [lang, setLang] = useState('VI');
   const location = useLocation();
 
   useEffect(() => {
@@ -121,25 +120,17 @@ export default function Header() {
       <div className="bg-orange-500 text-white text-xs py-1.5 px-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <a href="mailto:info@absduhoc.edu.vn" className="flex items-center gap-1 hover:text-orange-200 transition-colors">
+            <a href="mailto:xkldcongthuong@gmail.com" className="flex items-center gap-1 hover:text-orange-200 transition-colors">
               <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
-              info@absduhoc.edu.vn
+              xkldcongthuong@gmail.com
             </a>
-            <a href="tel:19001899" className="flex items-center gap-1 hover:text-orange-200 transition-colors">
+            <a href="tel:035.9966.168" className="flex items-center gap-1 hover:text-orange-200 transition-colors">
               <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
-              1900 1899
+              035.9966.168
             </a>
           </div>
           <div className="flex items-center gap-2">
-            <span className="hidden sm:inline">EduonlineCenter</span>
-            <div className="flex gap-1 ml-3">
-              {['VI', 'EN'].map(l => (
-                <button key={l} onClick={() => setLang(l)}
-                  className={`px-2 py-0.5 rounded text-xs font-semibold transition-all ${lang === l ? 'bg-white text-orange-500' : 'text-white hover:bg-orange-400'}`}>
-                  {l}
-                </button>
-              ))}
-            </div>
+            <span className="hidden sm:inline font-semibold">hcit.com.vn</span>
           </div>
         </div>
       </div>
@@ -150,11 +141,11 @@ export default function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 flex-shrink-0">
             <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-md">
-              <span className="text-white font-black text-lg leading-none">A</span>
+              <span className="text-white font-black text-sm leading-none">HCIT</span>
             </div>
             <div>
-              <div className="font-black text-orange-500 text-lg leading-none tracking-tight">ABS</div>
-              <div className="text-gray-500 text-[10px] leading-none font-medium tracking-wider">DU HỌC</div>
+              <div className="font-black text-orange-500 text-lg leading-none tracking-tight">HCIT</div>
+              <div className="text-gray-500 text-[10px] leading-none font-medium tracking-wider">DU HỌC & XKLĐ</div>
             </div>
           </Link>
 
@@ -170,7 +161,7 @@ export default function Header() {
             <a href="#contact"
               className="hidden md:flex items-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 shadow-md hover:shadow-lg">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/></svg>
-              Đăng ký
+              Đăng ký tư vấn
             </a>
 
             {/* Hamburger */}

@@ -1,131 +1,5 @@
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { GIOI_THIEU_MENU } from '../constants';
-
-const CONTENT = {
-  'gioi-thieu-chung': {
-    title: 'Giới thiệu chung',
-    cover: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1200&q=80',
-    body: `
-      <h2>ABS Du Học – Người bạn đồng hành trên hành trình chinh phục thế giới</h2>
-      <p>Trung tâm Tư vấn Du học & Xuất khẩu Lao động <strong>ABS</strong> (Academic & Beyond Solutions) được thành lập năm 2012 tại Đà Nẵng. Sau hơn 10 năm hoạt động, ABS đã trở thành một trong những đơn vị tư vấn du học uy tín hàng đầu tại miền Trung và trên cả nước.</p>
-
-      <h2>Thành tựu nổi bật</h2>
-      <ul>
-        <li>Hơn <strong>5.000 học sinh, sinh viên</strong> được tư vấn thành công đến học tập tại 20+ quốc gia</li>
-        <li>Hơn <strong>3.000 người lao động</strong> được đưa sang làm việc tại Nhật Bản, Hàn Quốc, Đài Loan, Úc</li>
-        <li>Tỷ lệ đậu visa <strong>trên 98%</strong> qua các năm</li>
-        <li>Hơn <strong>200 đối tác trường học</strong> tại Nhật, Hàn, Đài Loan, Đức, Úc, Mỹ, Canada</li>
-        <li>Được cấp phép hoạt động xuất khẩu lao động bởi <strong>Bộ Lao động – Thương binh và Xã hội</strong></li>
-      </ul>
-
-      <h2>Dịch vụ của ABS</h2>
-      <ul>
-        <li>Tư vấn du học tại Nhật Bản, Hàn Quốc, Đài Loan, Đức, Úc, Mỹ, Canada</li>
-        <li>Xuất khẩu lao động sang Nhật Bản, Hàn Quốc, Đài Loan, Châu Úc</li>
-        <li>Luyện thi IELTS, JLPT, TOPIK, EPS-TOPIK</li>
-        <li>Dịch vụ hỗ trợ du học sinh (chỗ ở, tài khoản ngân hàng, bảo hiểm)</li>
-        <li>Tư vấn định cư sau tốt nghiệp/hết hợp đồng</li>
-      </ul>
-
-      <h2>Văn phòng</h2>
-      <p><strong>Trụ sở chính:</strong> 123 Nguyễn Văn Linh, Quận Thanh Khê, Đà Nẵng<br/>
-      <strong>Chi nhánh Hà Nội:</strong> 456 Giải Phóng, Hoàng Mai, Hà Nội<br/>
-      <strong>Chi nhánh TP.HCM:</strong> 789 Điện Biên Phủ, Bình Thạnh, TP.HCM</p>
-      <p><strong>Hotline:</strong> 1900 1899 | <strong>Email:</strong> info@absduhoc.edu.vn</p>
-    `
-  },
-  'tam-nhin-su-menh': {
-    title: 'Tầm nhìn, Sứ mệnh & Giá trị cốt lõi',
-    cover: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80',
-    body: `
-      <h2>Tầm nhìn</h2>
-      <p>ABS hướng tới trở thành <strong>đơn vị tư vấn du học và xuất khẩu lao động số 1 Việt Nam</strong> vào năm 2030 – nơi mỗi người Việt Nam đều có thể tiếp cận cơ hội học tập và làm việc tốt nhất trên thế giới.</p>
-
-      <h2>Sứ mệnh</h2>
-      <p>ABS cam kết <strong>đồng hành thực sự</strong> cùng mỗi học viên và người lao động trong hành trình vươn ra thế giới – từ bước đầu tiên đặt chân lên đất khách đến khi ổn định, trưởng thành và thành công.</p>
-      <p>Chúng tôi không chỉ xử lý hồ sơ – chúng tôi <em>thay đổi cuộc đời</em>.</p>
-
-      <h2>Giá trị cốt lõi</h2>
-      <ul>
-        <li>
-          <strong>Tin cậy (Trust):</strong> Mọi cam kết của ABS đều được thực hiện. Không hứa những gì không làm được. Không thu phí những gì không có giá trị.
-        </li>
-        <li>
-          <strong>Tận tâm (Dedication):</strong> Mỗi hồ sơ là một con người – không phải một con số. Đội ngũ ABS luôn lắng nghe, thấu hiểu và tìm giải pháp tốt nhất cho từng cá nhân.
-        </li>
-        <li>
-          <strong>Chuyên nghiệp (Professionalism):</strong> Quy trình minh bạch, đội ngũ được đào tạo bài bản, cập nhật chính sách mới nhất từ các đại sứ quán và cơ quan tiếp nhận lao động.
-        </li>
-        <li>
-          <strong>Đồng hành (Partnership):</strong> Mối quan hệ với học viên không kết thúc sau khi cấp visa – ABS tiếp tục hỗ trợ trong suốt thời gian học tập/làm việc ở nước ngoài.
-        </li>
-        <li>
-          <strong>Phát triển bền vững (Sustainability):</strong> ABS kinh doanh có trách nhiệm, đặt lợi ích của học viên và người lao động lên hàng đầu.
-        </li>
-      </ul>
-
-      <h2>Cam kết với khách hàng</h2>
-      <p>ABS cam kết <strong>hoàn trả 100% phí dịch vụ</strong> nếu trường hợp từ chối visa do lỗi của ABS trong khâu tư vấn hoặc chuẩn bị hồ sơ. Chúng tôi tự tin vào chất lượng dịch vụ vì chúng tôi làm đúng ngay từ đầu.</p>
-    `
-  },
-  'co-cau-to-chuc': {
-    title: 'Cơ cấu tổ chức',
-    cover: 'https://images.unsplash.com/photo-1560472355-536de3962603?w=1200&q=80',
-    body: `
-      <h2>Ban Giám đốc</h2>
-      <ul>
-        <li><strong>Tổng Giám đốc:</strong> Nguyễn Thành Tâm – 15 năm kinh nghiệm trong lĩnh vực giáo dục quốc tế</li>
-        <li><strong>Phó Giám đốc phụ trách Du học:</strong> Trần Thị Mai Anh – Thạc sĩ Giáo dục, Đại học Monash (Úc)</li>
-        <li><strong>Phó Giám đốc phụ trách XKLĐ:</strong> Lê Quang Minh – Chuyên gia xuất khẩu lao động 12 năm kinh nghiệm</li>
-      </ul>
-
-      <h2>Phòng ban chức năng</h2>
-      <ul>
-        <li><strong>Phòng Tư vấn Du học:</strong> 20 tư vấn viên chuyên sâu theo từng thị trường (Nhật, Hàn, Đài Loan, Đức, Úc, Mỹ)</li>
-        <li><strong>Phòng Xuất khẩu Lao động:</strong> 15 chuyên viên phụ trách hồ sơ, phỏng vấn, xuất cảnh</li>
-        <li><strong>Trung tâm Ngoại ngữ:</strong> Đội ngũ 30 giáo viên IELTS, JLPT, TOPIK, EPS-TOPIK</li>
-        <li><strong>Phòng Hỗ trợ Sau Xuất cảnh:</strong> Hotline 24/7, hỗ trợ xử lý sự cố tại nước ngoài</li>
-        <li><strong>Phòng Marketing & Truyền thông:</strong> Quản lý thương hiệu, tổ chức hội thảo, sự kiện</li>
-        <li><strong>Phòng Kế toán – Hành chính:</strong> Quản lý tài chính, pháp lý, hợp đồng</li>
-      </ul>
-
-      <h2>Mạng lưới đại lý</h2>
-      <p>ABS có hệ thống <strong>50+ đại lý được ủy quyền</strong> trên toàn quốc từ Hà Nội đến Cà Mau, giúp học viên và người lao động ở mọi tỉnh thành đều có thể tiếp cận dịch vụ của ABS một cách thuận tiện nhất.</p>
-
-      <h2>Đối tác quốc tế</h2>
-      <p>ABS duy trì quan hệ đối tác chính thức với hơn <strong>200 trường đại học, cao đẳng và trung học</strong> tại Nhật Bản, Hàn Quốc, Đài Loan, Đức, Úc, Mỹ, Canada, cùng với <strong>50+ công ty và nhà máy</strong> tiếp nhận lao động tại Nhật, Hàn, Đài Loan, Úc.</p>
-    `
-  },
-  'ho-so-phap-ly': {
-    title: 'Hồ sơ pháp lý',
-    cover: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1200&q=80',
-    body: `
-      <h2>Giấy phép hoạt động</h2>
-      <ul>
-        <li><strong>Giấy phép kinh doanh:</strong> Số 0401234567 do Sở Kế hoạch và Đầu tư TP. Đà Nẵng cấp ngày 15/03/2012</li>
-        <li><strong>Giấy phép Tư vấn Du học:</strong> Số GP-TVDH-0123 do Bộ Giáo dục và Đào tạo cấp, còn hiệu lực đến 2027</li>
-        <li><strong>Giấy phép Xuất khẩu Lao động:</strong> Số 0456/LĐTBXH-GP do Bộ Lao động – Thương binh và Xã hội cấp</li>
-        <li><strong>Chứng nhận thành viên VNAS:</strong> Hội đồng Tư vấn Du học Việt Nam</li>
-      </ul>
-
-      <h2>Các chứng nhận và giải thưởng</h2>
-      <ul>
-        <li>Top 10 Đơn vị Tư vấn Du học Uy tín Việt Nam 2022, 2023, 2024 (Hội đồng Kinh doanh & Phát triển Giáo dục)</li>
-        <li>Đối tác Vàng của JASSO (Japan Student Services Organization)</li>
-        <li>Đối tác chính thức của NIIED (National Institute for International Education, Hàn Quốc)</li>
-        <li>Thành viên AIRC (American International Recruitment Council)</li>
-        <li>Danh hiệu "Thương hiệu Dịch vụ Xuất sắc" tại Đà Nẵng 2023</li>
-      </ul>
-
-      <h2>Cam kết pháp lý</h2>
-      <p>ABS hoạt động hoàn toàn trong khuôn khổ pháp luật Việt Nam và quốc tế. Chúng tôi <strong>không thu phí vượt quy định</strong> của Bộ LĐ-TBXH, <strong>không môi giới chui</strong>, <strong>không cam kết sai sự thật</strong> về thị trường lao động hay cơ hội học tập nước ngoài.</p>
-      <p>Mọi hợp đồng dịch vụ đều minh bạch, rõ ràng, có đóng dấu xác nhận của ABS và chữ ký của khách hàng trước khi thực hiện bất kỳ dịch vụ nào.</p>
-
-      <h2>Liên hệ kiểm tra thông tin</h2>
-      <p>Quý khách có thể kiểm tra tính xác thực của Giấy phép Xuất khẩu Lao động tại cổng thông tin của <a href="https://dolab.gov.vn" target="_blank" rel="noopener noreferrer">Cục Quản lý Lao động ngoài nước (DOLAB)</a>.</p>
-    `
-  }
-};
 
 const SLUGS = [
   { slug: 'gioi-thieu-chung', label: 'Giới thiệu chung' },
@@ -134,6 +8,441 @@ const SLUGS = [
   { slug: 'ho-so-phap-ly', label: 'Hồ sơ pháp lý' }
 ];
 
+// ─── Page: Giới thiệu chung ──────────────────────────────────────────────────
+function GioiThieuChung() {
+  const industries = [
+    'Ngành cơ khí', 'Ngành logistics', 'Ngành nội thất', 'Ngành xây dựng',
+    'Ngành CNTT', 'Ngành nhà hàng - khách sạn', 'Ngành điều dưỡng',
+    'Ngành bán hàng', 'Ngành thẩm mỹ'
+  ];
+  const steps = [
+    { num: '01', title: 'Tư vấn lựa chọn phương án', desc: 'Phân tích năng lực, nguyện vọng và tư vấn chương trình phù hợp nhất' },
+    { num: '02', title: 'Lên kế hoạch, chuẩn bị hồ sơ', desc: 'Lập kế hoạch chi tiết và hỗ trợ chuẩn bị đầy đủ hồ sơ theo yêu cầu' },
+    { num: '03', title: 'Tham gia khóa học & thi ngoại ngữ', desc: 'Đào tạo ngoại ngữ và bồi dưỡng kỹ năng cần thiết trước khi xuất cảnh' },
+    { num: '04', title: 'Xin visa và hoàn thiện hồ sơ', desc: 'Hỗ trợ toàn diện quy trình xin visa và nộp hồ sơ nhập học/làm việc' },
+    { num: '05', title: 'Bay và nhập cảnh', desc: 'Hướng dẫn chuẩn bị hành lý, thủ tục xuất cảnh và nhập cảnh tại nước đến' },
+    { num: '06', title: 'Nhập học và trải nghiệm', desc: 'Hỗ trợ ổn định, định hướng cuộc sống và học tập/làm việc tại nước ngoài' }
+  ];
+  const advantages = [
+    { icon: '👨‍💼', title: 'Tư vấn viên chuyên nghiệp', desc: 'Đội ngũ có kinh nghiệm tư vấn du học & xuất khẩu lao động, tận tình và trách nhiệm' },
+    { icon: '🛠️', title: 'Dịch vụ toàn diện', desc: 'Hỗ trợ từ A-Z: từ chuẩn bị hồ sơ, xin visa đến nhập học và ổn định cuộc sống' },
+    { icon: '✅', title: 'Tỷ lệ hồ sơ thành công cao', desc: 'Tư vấn đúng hướng, phù hợp năng lực học viên giúp tăng tỷ lệ đỗ visa' },
+    { icon: '📊', title: 'Thông tin đầy đủ, chính xác', desc: 'Cung cấp thông tin minh bạch, cập nhật liên tục về thị trường du học & lao động' },
+    { icon: '🎓', title: 'Đào tạo chuyên sâu', desc: 'Khóa học đa dạng với đội ngũ giảng viên giàu kinh nghiệm, cơ sở vật chất hiện đại' }
+  ];
+
+  return (
+    <div className="space-y-10">
+      {/* About */}
+      <div>
+        <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <span className="w-1 h-6 bg-orange-500 rounded-full flex-shrink-0" />
+          Giới thiệu về HCIT., JSC
+        </h2>
+        <div className="space-y-3 text-gray-600 leading-relaxed">
+          <p>
+            <strong className="text-orange-600">Công ty Cổ phần Cung ứng Xuất khẩu lao động Công thương Hà Nội (HCIT., JSC)</strong> được thành lập với mục tiêu nâng cao hiệu quả quá trình đào tạo, kết nối và tạo cơ hội học tập nâng cao trình độ, tìm kiếm việc làm cho học sinh, sinh viên.
+          </p>
+          <p>
+            HCIT., JSC hoạt động trong lĩnh vực <strong>du học</strong> và <strong>xuất khẩu lao động</strong>, có giấy phép hoạt động xuất khẩu lao động được cấp bởi cơ quan chức năng tại Việt Nam (Số 368/LĐTBXH-GP).
+          </p>
+          <p>
+            Với nhiều năm hoạt động và mạng lưới hợp tác rộng với các trường học quốc tế, doanh nghiệp nước ngoài tại Nhật Bản, Hàn Quốc, Đài Loan, HCIT tự hào là cầu nối tin cậy giúp học viên Việt Nam vươn tầm quốc tế.
+          </p>
+          <p>
+            <strong>Tầm nhìn:</strong> Trở thành đơn vị hàng đầu trong lĩnh vực du học & xuất khẩu lao động.
+          </p>
+          <p>
+            <strong>Sứ mệnh:</strong> Kết nối học viên Việt Nam với cơ hội quốc tế chất lượng cao, đồng hành trên mọi hành trình.
+          </p>
+        </div>
+      </div>
+
+      {/* Industries */}
+      <div>
+        <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <span className="w-1 h-6 bg-orange-500 rounded-full flex-shrink-0" />
+          Ngành nghề đào tạo / định hướng
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          {industries.map((ind, i) => (
+            <div key={i} className="flex items-center gap-2 bg-orange-50 rounded-xl px-4 py-2.5 text-sm font-medium text-gray-700 border border-orange-100">
+              <svg className="w-4 h-4 text-orange-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+              </svg>
+              {ind}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Process */}
+      <div>
+        <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+          <span className="w-1 h-6 bg-orange-500 rounded-full flex-shrink-0" />
+          Quy trình tư vấn tại HCIT
+        </h2>
+        <div className="grid sm:grid-cols-2 gap-4">
+          {steps.map((s, i) => (
+            <div key={i} className="flex gap-4 bg-gray-50 rounded-2xl p-4 border border-gray-100">
+              <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white font-black text-sm flex-shrink-0">{s.num}</div>
+              <div>
+                <div className="font-bold text-gray-800 text-sm mb-1">{s.title}</div>
+                <div className="text-xs text-gray-500 leading-relaxed">{s.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Advantages */}
+      <div>
+        <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+          <span className="w-1 h-6 bg-orange-500 rounded-full flex-shrink-0" />
+          Lợi thế khi chọn HCIT
+        </h2>
+        <div className="space-y-4">
+          {advantages.map((a, i) => (
+            <div key={i} className="flex gap-4 bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+              <div className="text-2xl flex-shrink-0">{a.icon}</div>
+              <div>
+                <div className="font-bold text-gray-800 mb-1">{a.title}</div>
+                <div className="text-sm text-gray-500 leading-relaxed">{a.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Page: Tầm nhìn, Sứ mệnh ────────────────────────────────────────────────
+function TamNhinSuMenh() {
+  const missions = [
+    'Là cầu nối, kết nối cơ hội học tập, làm việc cho học sinh, sinh viên tiếp cận với môi trường học tập, làm việc tại các nước tiên tiến.',
+    'Cung cấp nguồn nhân lực đã qua đào tạo, đáp ứng nhu cầu nguồn nhân lực của khách hàng và nước tiếp nhận.',
+    'Góp phần nâng cao chất lượng nguồn nhân lực Việt đáp ứng nhu cầu việc làm trong và ngoài nước.'
+  ];
+  const values = [
+    'Uy tín, chất lượng, linh hoạt và hiệu quả',
+    'Đề cao lợi ích của Khách hàng trên cơ sở đôi bên cùng có lợi',
+    'Tạo môi trường làm việc chuyên nghiệp và thân thiện để mỗi thành viên phát huy tối đa năng lực cá nhân',
+    'Đóng góp trách nhiệm vào phát triển cộng đồng'
+  ];
+  const reasons = [
+    'Dịch vụ uy tín và chất lượng, chương trình đa dạng',
+    'Đội ngũ nhân viên tận tâm và chuyên nghiệp',
+    'Chia sẻ hài hòa lợi ích của các bên',
+    'Luôn đồng hành, hỗ trợ tận tình và chu đáo cho các đối tác, du học sinh và người lao động trong suốt quá trình học tập và làm việc ở nước ngoài'
+  ];
+
+  return (
+    <div className="space-y-10">
+      {/* Vision */}
+      <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-2xl p-6 border border-orange-100">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white text-xl">🏆</div>
+          <h2 className="text-xl font-bold text-gray-800">Tầm nhìn</h2>
+        </div>
+        <p className="text-gray-700 leading-relaxed">
+          Trở thành <strong className="text-orange-600">Công ty uy tín hàng đầu</strong> về tư vấn du học, xuất khẩu lao động sang các nước khu vực Đông Bắc Á và vươn ra các khu vực trên toàn thế giới.
+        </p>
+      </div>
+
+      {/* Mission */}
+      <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-100">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center text-white text-xl">🌏</div>
+          <h2 className="text-xl font-bold text-gray-800">Sứ mệnh</h2>
+        </div>
+        <ul className="space-y-3">
+          {missions.map((m, i) => (
+            <li key={i} className="flex items-start gap-2 text-gray-700 leading-relaxed">
+              <svg className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+              </svg>
+              {m}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Core Values */}
+      <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-2xl p-6 border border-pink-100">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 bg-pink-500 rounded-xl flex items-center justify-center text-white text-xl">✅</div>
+          <h2 className="text-xl font-bold text-gray-800">Giá trị cốt lõi</h2>
+        </div>
+        <ul className="space-y-3">
+          {values.map((v, i) => (
+            <li key={i} className="flex items-start gap-2 text-gray-700 leading-relaxed">
+              <span className="w-6 h-6 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">{i + 1}</span>
+              {v}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Why HCIT */}
+      <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-100">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center text-white text-xl">⭐</div>
+          <h2 className="text-xl font-bold text-gray-800">Vì sao chọn chúng tôi</h2>
+        </div>
+        <ul className="space-y-3">
+          {reasons.map((r, i) => (
+            <li key={i} className="flex items-start gap-2 text-gray-700 leading-relaxed">
+              <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+              </svg>
+              {r}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+// ─── Page: Cơ cấu tổ chức ───────────────────────────────────────────────────
+function CoCauToChuc() {
+  return (
+    <div className="space-y-10">
+      {/* HCIT School */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <div className="flex items-center gap-3 mb-5">
+          <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black text-sm">HCIT</div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-800">Trường Cao đẳng Công thương Hà Nội</h2>
+            <span className="text-xs text-blue-600 font-medium bg-blue-50 px-2 py-0.5 rounded-full">Cổ đông lớn</span>
+          </div>
+        </div>
+        <div className="space-y-3 text-gray-600 leading-relaxed text-sm">
+          <p>
+            Trường Cao đẳng Công thương Hà Nội (HCIT) là cổ đông lớn của Công ty Cổ phần Cung ứng Xuất khẩu lao động Công Thương Hà Nội.
+          </p>
+          <p>
+            Trường được thành lập trên cơ sở nâng cấp từ Trường trung cấp Công thương theo quyết định số <strong>1260/QĐ-BGD ĐT ngày 15/4/2015</strong> của Bộ trưởng Bộ Giáo dục và Đào tạo.
+          </p>
+          <p>
+            Hiện trường đào tạo <strong>59 ngành nghề</strong> như: công nghệ thông tin; công nghệ kỹ thuật điện-điện tử; điện dân dụng và công nghiệp; công nghệ ô tô; xây dựng công nghiệp và dân dụng; chăm sóc sức khỏe (dược, điều dưỡng, chăm sóc sắc đẹp); dịch vụ du lịch, nhà hàng khách sạn, giúp việc gia đình... theo các chương trình hệ cao đẳng, hệ trung cấp và sơ cấp.
+          </p>
+          <p>Mỗi năm Trường đào tạo cho ra trường hơn <strong>4.000 sinh viên</strong>.</p>
+          <div className="flex items-start gap-2 bg-blue-50 rounded-xl p-3">
+            <span className="text-blue-500">📍</span>
+            <span><strong>Trụ sở chính:</strong> Số 54A1, phố Vũ Trọng Phụng, quận Thanh Xuân, thành phố Hà Nội</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Company HCIT JSC */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <div className="flex items-center gap-3 mb-5">
+          <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center text-white font-black text-xs">JSC</div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-800">Công ty Cổ phần Cung ứng Xuất khẩu lao động Công thương Hà Nội</h2>
+          </div>
+        </div>
+        <div className="space-y-3 text-gray-600 leading-relaxed text-sm">
+          <p>
+            Với mục tiêu nâng cao hiệu quả quá trình đào tạo, kết nối và tạo cơ hội học tập nâng cao trình độ, tìm kiếm việc làm cho học sinh sau khi tốt nghiệp, <strong>Công ty cổ phần Cung ứng Xuất khẩu lao động Công thương Hà Nội (HCIT., JSC)</strong> được thành lập.
+          </p>
+          <p>
+            HCIT., JSC có chức năng kết nối các chương trình đào tạo sinh viên, du học nâng cao trình độ và tìm kiếm việc làm cho học sinh, sinh viên Nhà Trường tại các nước tiên tiến.
+          </p>
+          <p>
+            Ngoài ra, HCIT., JSC cũng cung cấp dịch vụ tư vấn du học, xuất khẩu lao động cho học sinh, sinh viên và người lao động trên cả nước đi học tập, làm việc tại các nước như: <strong>Hàn Quốc, Nhật Bản, Đài Loan...</strong>
+          </p>
+          <div className="flex items-start gap-2 bg-orange-50 rounded-xl p-3">
+            <span className="text-orange-500">📍</span>
+            <span><strong>Trụ sở chính:</strong> Số 56, phố Vũ Trọng Phụng, quận Thanh Xuân, thành phố Hà Nội</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Training Facility */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <div className="flex items-center gap-3 mb-5">
+          <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center text-white text-2xl">🏫</div>
+          <h2 className="text-lg font-bold text-gray-800">Cơ sở đào tạo</h2>
+        </div>
+        <div className="space-y-3 text-gray-600 leading-relaxed text-sm">
+          <p>
+            HCIT có cơ sở đào tạo rộng trên <strong>20.000 m²</strong> là cơ sở thực hiện các hoạt động đào tạo và liên kết đào tạo ngoại ngữ, bồi dưỡng nâng cao tay nghề và giáo dục định hướng cho du học sinh, người lao động trước khi đi học tập, làm việc ở nước ngoài.
+          </p>
+          <div className="flex items-start gap-2 bg-green-50 rounded-xl p-3">
+            <span className="text-green-500">📍</span>
+            <span><strong>Địa chỉ:</strong> Xã Đại Áng, huyện Thanh Trì, thành phố Hà Nội</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Page: Hồ sơ pháp lý ────────────────────────────────────────────────────
+function HoSoPhapLy() {
+  const [activeTab, setActiveTab] = useState('xkld');
+  const tabs = [
+    { id: 'xkld', label: 'Giấy phép XKLĐ' },
+    { id: 'du-hoc', label: 'Giấy phép du học' },
+    { id: 'cb', label: 'Danh sách CB thực hiện XKLĐ' }
+  ];
+
+  return (
+    <div className="space-y-6">
+      {/* Tabs */}
+      <div className="flex flex-wrap gap-2 border-b border-gray-200 pb-2">
+        {tabs.map(t => (
+          <button key={t.id} onClick={() => setActiveTab(t.id)}
+            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+              activeTab === t.id
+                ? 'bg-orange-500 text-white shadow-md'
+                : 'bg-gray-100 text-gray-600 hover:bg-orange-50 hover:text-orange-500'
+            }`}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Giấy phép XKLĐ */}
+      {activeTab === 'xkld' && (
+        <div className="space-y-6">
+          <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+            <span className="w-1 h-6 bg-orange-500 rounded-full flex-shrink-0" />
+            Giấy phép XKLĐ
+          </h2>
+
+          {/* Document card */}
+          <div className="bg-gray-50 rounded-2xl border border-gray-200 p-6 font-mono text-sm">
+            <div className="text-center space-y-1 mb-6 pb-4 border-b border-gray-300">
+              <p className="font-bold text-gray-800 uppercase tracking-wide">BỘ LAO ĐỘNG - THƯƠNG BINH VÀ XÃ HỘI</p>
+              <p className="font-bold text-gray-700">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
+              <p className="text-gray-600">Độc lập - Tự do - Hạnh phúc</p>
+              <p className="text-gray-500">─────────────────────────</p>
+              <p className="text-gray-600">Số: <strong className="text-orange-600">368/LĐTBXH-GP</strong></p>
+            </div>
+
+            <div className="text-center mb-6">
+              <h3 className="text-lg font-black text-gray-800 uppercase tracking-wider">GIẤY PHÉP</h3>
+              <p className="font-bold text-gray-700 mt-2">GIẤY PHÉP HOẠT ĐỘNG</p>
+              <p className="font-bold text-gray-700">DỊCH VỤ ĐƯA NGƯỜI LAO ĐỘNG VIỆT NAM ĐI LÀM VIỆC</p>
+              <p className="font-bold text-gray-700">Ở NƯỚC NGOÀI THEO HỢP ĐỒNG</p>
+              <p className="text-gray-500 mt-2 text-xs">Cấp ngày ... tháng ... năm 2024</p>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <p className="font-bold text-gray-700 mb-2">CĂN CỨ PHÁP LÝ</p>
+                <ul className="space-y-1 text-gray-600 text-xs leading-relaxed">
+                  <li>• Căn cứ Luật Người lao động Việt Nam đi làm việc ở nước ngoài theo hợp đồng ngày 13 tháng 11 năm 2020</li>
+                  <li>• Căn cứ Nghị định số 112/2021/NĐ-CP ngày 10 tháng 12 năm 2021 của Chính phủ quy định chi tiết một số điều và biện pháp thi hành Luật Người lao động Việt Nam đi làm việc ở nước ngoài theo hợp đồng</li>
+                </ul>
+              </div>
+
+              <div>
+                <p className="font-bold text-gray-700 mb-2">QUYẾT ĐỊNH</p>
+                <p className="text-gray-600 text-xs mb-3">Điều 1. Cấp Giấy phép đối với:</p>
+                <div className="bg-white rounded-xl p-4 space-y-2 border border-gray-200">
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <span className="text-gray-500">Tên doanh nghiệp (tiếng Việt):</span>
+                    <span className="font-bold text-gray-800">CÔNG TY CỔ PHẦN CUNG ỨNG XUẤT KHẨU LAO ĐỘNG CÔNG THƯƠNG HÀ NỘI</span>
+                    <span className="text-gray-500">Tên tiếng Anh:</span>
+                    <span className="font-semibold text-gray-700">HANOI INDUSTRIAL AND TRADING SUPPLY LABOR EXPORT JOINT STOCK COMPANY</span>
+                    <span className="text-gray-500">Tên viết tắt:</span>
+                    <span className="font-bold text-orange-600">HCIT., JSC</span>
+                    <span className="text-gray-500">Mã số doanh nghiệp:</span>
+                    <span className="font-semibold text-gray-700">0108648533</span>
+                    <span className="text-gray-500">Ngày đăng ký lần đầu:</span>
+                    <span className="font-semibold text-gray-700">14/3/2019</span>
+                    <span className="text-gray-500">Nơi cấp:</span>
+                    <span className="font-semibold text-gray-700">Sở Kế hoạch và Đầu tư thành phố Hà Nội</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <p className="font-bold text-gray-700 mb-2">NGƯỜI ĐẠI DIỆN</p>
+                <p className="text-gray-600 text-xs">
+                  Người đại diện theo pháp luật trong hoạt động dịch vụ đưa người lao động đi làm việc ở nước ngoài theo hợp đồng:
+                </p>
+                <p className="font-bold text-gray-800 text-sm mt-1">Ông Nguyễn Hoàng Hải – Tổng Giám đốc</p>
+              </div>
+
+              <div className="bg-yellow-50 rounded-xl p-3 border border-yellow-200">
+                <p className="font-bold text-yellow-800 text-xs mb-1">GHI CHÚ</p>
+                <p className="text-yellow-700 text-xs">Được đổi từ Giấy phép số 1166/LĐTBXH-GP cấp ngày 25/10/2019 theo Luật Người lao động Việt Nam đi làm việc ở nước ngoài theo hợp đồng số 72/2006/QH11.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-blue-50 rounded-xl p-4 border border-blue-100 text-sm">
+            <p className="text-blue-700">
+              <strong>Kiểm tra giấy phép:</strong> Quý khách có thể kiểm tra tính xác thực của Giấy phép Xuất khẩu Lao động tại cổng thông tin của Cục Quản lý Lao động ngoài nước (DOLAB) – Bộ LĐ-TBXH.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Du học */}
+      {activeTab === 'du-hoc' && (
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+            <span className="w-1 h-6 bg-orange-500 rounded-full flex-shrink-0" />
+            Giấy phép du học
+          </h2>
+          <div className="bg-gray-50 rounded-2xl border border-gray-200 p-6 text-center text-gray-500">
+            <div className="text-4xl mb-3">📄</div>
+            <p className="font-medium">Tài liệu đang được cập nhật</p>
+            <p className="text-sm mt-1">Vui lòng liên hệ hotline <strong className="text-orange-500">035.9966.168</strong> để được cung cấp thông tin chi tiết</p>
+          </div>
+        </div>
+      )}
+
+      {/* Danh sách CB */}
+      {activeTab === 'cb' && (
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+            <span className="w-1 h-6 bg-orange-500 rounded-full flex-shrink-0" />
+            Danh sách cán bộ thực hiện XKLĐ
+          </h2>
+          <div className="bg-gray-50 rounded-2xl border border-gray-200 p-6 text-center text-gray-500">
+            <div className="text-4xl mb-3">👥</div>
+            <p className="font-medium">Tài liệu đang được cập nhật</p>
+            <p className="text-sm mt-1">Vui lòng liên hệ hotline <strong className="text-orange-500">035.9966.168</strong> để được cung cấp thông tin chi tiết</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── CONTENT MAP ─────────────────────────────────────────────────────────────
+const CONTENT = {
+  'gioi-thieu-chung': {
+    title: 'Giới thiệu chung',
+    cover: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1200&q=80',
+    Component: GioiThieuChung
+  },
+  'tam-nhin-su-menh': {
+    title: 'Tầm nhìn, Sứ mệnh & Giá trị cốt lõi',
+    cover: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80',
+    Component: TamNhinSuMenh
+  },
+  'co-cau-to-chuc': {
+    title: 'Cơ cấu tổ chức',
+    cover: 'https://images.unsplash.com/photo-1560472355-536de3962603?w=1200&q=80',
+    Component: CoCauToChuc
+  },
+  'ho-so-phap-ly': {
+    title: 'Hồ sơ pháp lý',
+    cover: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1200&q=80',
+    Component: HoSoPhapLy
+  }
+};
+
+// ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
 export default function GioiThieu() {
   const { slug } = useParams();
   const page = CONTENT[slug];
@@ -148,6 +457,8 @@ export default function GioiThieu() {
       </div>
     );
   }
+
+  const { Component } = page;
 
   return (
     <div className="min-h-screen bg-gray-50 pt-28 pb-16">
@@ -166,7 +477,7 @@ export default function GioiThieu() {
           <aside className="lg:col-span-1">
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden sticky top-24">
               <div className="bg-orange-500 px-4 py-3">
-                <h3 className="text-white font-bold text-sm">Giới thiệu ABS</h3>
+                <h3 className="text-white font-bold text-sm">Giới thiệu HCIT</h3>
               </div>
               <nav className="py-2">
                 {SLUGS.map(item => (
@@ -194,41 +505,31 @@ export default function GioiThieu() {
               <img src={page.cover} alt={page.title} className="w-full h-full object-cover" loading="lazy" />
             </div>
 
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-10">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
               {/* Title */}
               <div className="flex items-center gap-3 mb-8 pb-6 border-b border-gray-100">
                 <div className="w-1.5 h-10 bg-orange-500 rounded-full flex-shrink-0" />
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-800">{page.title}</h1>
               </div>
 
-              {/* Content */}
-              <div
-                className="prose prose-gray max-w-none text-gray-700 leading-relaxed
-                  prose-h2:text-xl prose-h2:font-bold prose-h2:text-gray-800 prose-h2:mt-8 prose-h2:mb-3 prose-h2:flex prose-h2:items-center prose-h2:gap-2
-                  prose-h2:before:content-[''] prose-h2:before:inline-block prose-h2:before:w-1 prose-h2:before:h-6 prose-h2:before:bg-orange-400 prose-h2:before:rounded-full
-                  prose-p:mb-4 prose-p:leading-relaxed
-                  prose-ul:mb-4 prose-ul:pl-6 prose-li:mb-2
-                  prose-ol:mb-4 prose-ol:pl-6
-                  prose-strong:text-orange-600
-                  prose-a:text-orange-500 prose-a:no-underline hover:prose-a:underline"
-                dangerouslySetInnerHTML={{ __html: page.body }}
-              />
+              {/* Dynamic content */}
+              <Component />
             </div>
 
             {/* CTA */}
             <div className="mt-6 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-6 text-white flex flex-col sm:flex-row items-center justify-between gap-4">
               <div>
                 <p className="font-bold text-lg">Bạn cần tư vấn?</p>
-                <p className="text-orange-100 text-sm">Đội ngũ ABS luôn sẵn sàng hỗ trợ bạn</p>
+                <p className="text-orange-100 text-sm">Đội ngũ HCIT luôn sẵn sàng hỗ trợ bạn</p>
               </div>
               <div className="flex gap-3 flex-shrink-0">
-                <a href="tel:19001899"
+                <a href="tel:035.9966.168"
                   className="bg-white text-orange-600 font-bold px-5 py-2.5 rounded-full text-sm hover:bg-orange-50 transition-colors shadow-md">
-                  1900 1899
+                  035.9966.168
                 </a>
                 <Link to="/#contact"
                   className="bg-orange-700 text-white font-bold px-5 py-2.5 rounded-full text-sm hover:bg-orange-800 transition-colors shadow-md">
-                  Đặt lịch tư vấn
+                  Đăng ký tư vấn
                 </Link>
               </div>
             </div>

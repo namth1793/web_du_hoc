@@ -1,23 +1,14 @@
 const partners = [
-  { name: 'Kalmbach Media', abbr: 'K', color: '#1a56db' },
-  { name: 'Emerald Group', abbr: 'E', color: '#0e9f6e' },
-  { name: 'Kalmbach Media', abbr: 'K', color: '#1a56db' },
-  { name: 'Emerald Group', abbr: 'E', color: '#0e9f6e' },
-  { name: 'Media Pro', abbr: 'M', color: '#7c3aed' },
-  { name: 'Creative', abbr: 'C', color: '#e02424' },
-  { name: 'MatBao', abbr: 'MB', color: '#ff6900' },
-  { name: 'Dân Trí', abbr: 'DT', color: '#c81e1e' },
-  { name: 'Nhân Dân', abbr: 'ND', color: '#c81e1e' },
-  { name: 'VietnamNet', abbr: 'VN', color: '#e02424' }
-];
-
-const pressMedia = [
-  { name: 'Báo Tuổi Trẻ', url: 'https://img.shields.io/badge/Tuổi_Trẻ-FF0000?style=flat&logoColor=white' },
-  { name: 'Báo Dân Trí', url: 'https://img.shields.io/badge/Dân_Trí-C81E1E?style=flat&logoColor=white' },
-  { name: 'VnExpress', url: 'https://img.shields.io/badge/VnExpress-FF6600?style=flat&logoColor=white' },
-  { name: 'Nhân Dân', url: 'https://img.shields.io/badge/Nhân_Dân-C81E1E?style=flat&logoColor=white' },
-  { name: 'VietnamNet', url: 'https://img.shields.io/badge/VietnamNet-004799?style=flat&logoColor=white' },
-  { name: 'Zing News', url: 'https://img.shields.io/badge/Zing-2563EB?style=flat&logoColor=white' }
+  { name: 'Hanyang Univ.', abbr: 'HY', color: '#c41e3a' },
+  { name: 'Sejong Univ.', abbr: 'SJ', color: '#004B9E' },
+  { name: 'Inha Univ.', abbr: 'IN', color: '#0033A0' },
+  { name: 'Konkuk Univ.', abbr: 'KK', color: '#002868' },
+  { name: 'NTU Taiwan', abbr: 'NTU', color: '#8B0000' },
+  { name: 'NCKU', abbr: 'NK', color: '#003087' },
+  { name: 'NTUST', abbr: 'NT', color: '#1B4F72' },
+  { name: 'FCU Taiwan', abbr: 'FC', color: '#6B2D8B' },
+  { name: 'Keio Univ.', abbr: 'KU', color: '#003087' },
+  { name: 'Waseda Univ.', abbr: 'WU', color: '#820000' }
 ];
 
 export default function MediaLogos() {
@@ -25,9 +16,9 @@ export default function MediaLogos() {
     <section className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-12 animate-on-scroll">
-          <h2 className="section-title">Truyền thông nói về chúng tôi</h2>
+          <h2 className="section-title">Đối tác liên kết</h2>
           <p className="section-subtitle">
-            ABS Du Học được các phương tiện truyền thông hàng đầu Việt Nam và quốc tế tin tưởng đưa tin
+            HCIT hợp tác với các trường đại học, tổ chức giáo dục uy tín tại Nhật Bản, Hàn Quốc và Đài Loan
           </p>
         </div>
 
@@ -51,19 +42,19 @@ export default function MediaLogos() {
           ))}
         </div>
 
-        {/* Press coverage */}
+        {/* Country partners */}
         <div className="animate-on-scroll">
-          <p className="text-center text-sm text-gray-500 mb-6 font-medium">Được đưa tin bởi</p>
+          <p className="text-center text-sm text-gray-500 mb-6 font-medium">Quốc gia đối tác</p>
           <div className="flex flex-wrap justify-center gap-3">
             {[
-              { name: '📰 Báo Tuổi Trẻ', bg: 'bg-red-50 text-red-600 border-red-200' },
-              { name: '📰 Dân Trí', bg: 'bg-orange-50 text-orange-600 border-orange-200' },
-              { name: '📰 VnExpress', bg: 'bg-blue-50 text-blue-600 border-blue-200' },
-              { name: '📰 Nhân Dân', bg: 'bg-red-50 text-red-700 border-red-200' },
-              { name: '📰 VietnamNet', bg: 'bg-indigo-50 text-indigo-600 border-indigo-200' },
-              { name: '📰 Zing News', bg: 'bg-purple-50 text-purple-600 border-purple-200' },
-              { name: '📺 VTV', bg: 'bg-green-50 text-green-600 border-green-200' },
-              { name: '📺 HTV', bg: 'bg-yellow-50 text-yellow-700 border-yellow-200' }
+              { name: '🇯🇵 Nhật Bản', bg: 'bg-red-50 text-red-600 border-red-200' },
+              { name: '🇰🇷 Hàn Quốc', bg: 'bg-blue-50 text-blue-600 border-blue-200' },
+              { name: '🇹🇼 Đài Loan', bg: 'bg-green-50 text-green-600 border-green-200' },
+              { name: '🏫 Trường đại học Hàn Quốc', bg: 'bg-indigo-50 text-indigo-600 border-indigo-200' },
+              { name: '🏫 Trường đại học Đài Loan', bg: 'bg-purple-50 text-purple-600 border-purple-200' },
+              { name: '🏢 Doanh nghiệp Nhật Bản', bg: 'bg-orange-50 text-orange-600 border-orange-200' },
+              { name: '🏢 Doanh nghiệp Hàn Quốc', bg: 'bg-sky-50 text-sky-600 border-sky-200' },
+              { name: '📋 Tổ chức giáo dục quốc tế', bg: 'bg-yellow-50 text-yellow-700 border-yellow-200' }
             ].map(m => (
               <span
                 key={m.name}
@@ -78,10 +69,10 @@ export default function MediaLogos() {
         {/* Trust badges */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-14 animate-on-scroll">
           {[
-            { icon: '🏆', title: 'Top 10 Đơn vị', subtitle: 'Tư vấn du học uy tín 2024' },
-            { icon: '✅', title: 'Được chứng nhận', subtitle: 'Bộ GD&ĐT Việt Nam' },
-            { icon: '🌏', title: 'Đối tác chính thức', subtitle: 'IDP Education Australia' },
-            { icon: '⭐', title: '4.9/5 đánh giá', subtitle: 'Từ 5000+ học viên' }
+            { icon: '🏆', title: 'Giấy phép XKLĐ', subtitle: 'Số 368/LĐTBXH-GP' },
+            { icon: '✅', title: 'Được cấp phép', subtitle: 'Bộ LĐ-TB và XH Việt Nam' },
+            { icon: '🌏', title: 'Đối tác quốc tế', subtitle: 'Nhật Bản · Hàn Quốc · Đài Loan' },
+            { icon: '⭐', title: '100% hài lòng', subtitle: 'Từ 1200+ học viên' }
           ].map(b => (
             <div key={b.title} className="text-center p-5 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
               <div className="text-3xl mb-2">{b.icon}</div>

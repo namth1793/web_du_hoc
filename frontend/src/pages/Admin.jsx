@@ -57,7 +57,7 @@ function LoginScreen({ onLogin }) {
             </svg>
           </div>
           <h1 className="text-2xl font-bold text-gray-800">Trang quản trị</h1>
-          <p className="text-gray-500 text-sm mt-1">ABS Du Học Admin Panel</p>
+          <p className="text-gray-500 text-sm mt-1">HCIT Admin Panel</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -421,12 +421,12 @@ export default function Admin() {
           <div className="flex items-center gap-3">
             <Link to="/" className="flex items-center gap-2">
               <div className="w-9 h-9 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-md">
-                <span className="text-white font-black text-base leading-none">A</span>
+                <span className="text-white font-black text-xs leading-none">HCIT</span>
               </div>
             </Link>
             <div>
               <h1 className="font-bold text-gray-800 text-lg leading-none">Admin Panel</h1>
-              <p className="text-xs text-gray-400 mt-0.5">ABS Du Học</p>
+              <p className="text-xs text-gray-400 mt-0.5">HCIT Du Học & XKLĐ</p>
             </div>
             <div className="flex items-center gap-1 ml-4 bg-gray-100 rounded-xl p-1">
               <button onClick={() => setActiveTab('articles')}

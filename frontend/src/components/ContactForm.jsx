@@ -1,8 +1,23 @@
 import { useState } from 'react';
 import api from '../lib/api';
 
+const PROVINCES = ['Hà Nội','Hồ Chí Minh','Đà Nẵng','Hải Phòng','Cần Thơ','An Giang','Bà Rịa-Vũng Tàu','Bắc Giang','Bắc Kạn','Bạc Liêu','Bắc Ninh','Bến Tre','Bình Định','Bình Dương','Bình Phước','Bình Thuận','Cà Mau','Cao Bằng','Đắk Lắk','Đắk Nông','Điện Biên','Đồng Nai','Đồng Tháp','Gia Lai','Hà Giang','Hà Nam','Hà Tĩnh','Hải Dương','Hậu Giang','Hòa Bình','Hưng Yên','Khánh Hòa','Kiên Giang','Kon Tum','Lai Châu','Lâm Đồng','Lạng Sơn','Lào Cai','Long An','Nam Định','Nghệ An','Ninh Bình','Ninh Thuận','Phú Thọ','Phú Yên','Quảng Bình','Quảng Nam','Quảng Ngãi','Quảng Ninh','Quảng Trị','Sóc Trăng','Sơn La','Tây Ninh','Thái Bình','Thái Nguyên','Thanh Hóa','Thừa Thiên Huế','Tiền Giang','Trà Vinh','Tuyên Quang','Vĩnh Long','Vĩnh Phúc','Yên Bái'];
+
+const NEEDS = [
+  'Du học Nhật Bản',
+  'Du học Hàn Quốc',
+  'Du học Đài Loan',
+  'Du học Đức',
+  'Du học Úc',
+  'Xuất khẩu lao động Nhật Bản',
+  'Xuất khẩu lao động Hàn Quốc',
+  'Xuất khẩu lao động Đài Loan',
+  'Đào tạo ngoại ngữ',
+  'Tư vấn nghề nghiệp'
+];
+
 export default function ContactForm() {
-  const [form, setForm] = useState({ name: '', phone: '', email: '', message: '' });
+  const [form, setForm] = useState({ name: '', phone: '', email: '', address: '', need: '', province: '', message: '' });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
 
@@ -15,7 +30,7 @@ export default function ContactForm() {
     try {
       const res = await api.post('/api/contact', form);
       setResult({ ok: true, msg: res.data.message });
-      setForm({ name: '', phone: '', email: '', message: '' });
+      setForm({ name: '', phone: '', email: '', address: '', need: '', province: '', message: '' });
     } catch (err) {
       setResult({ ok: false, msg: err.response?.data?.message || 'Có lỗi xảy ra. Vui lòng thử lại.' });
     } finally {
@@ -33,69 +48,68 @@ export default function ContactForm() {
             </svg>
             Tư vấn miễn phí
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Đăng ký tư vấn du học</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Đăng ký tư vấn</h2>
           <p className="text-gray-500 mt-3 max-w-lg mx-auto">
-            Để lại thông tin, tư vấn viên ABS sẽ liên hệ trong vòng 30 phút
+            Để lại thông tin, tư vấn viên HCIT sẽ liên hệ bạn trong thời gian sớm nhất
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-12 items-start max-w-5xl mx-auto">
           {/* Form */}
           <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 animate-on-scroll">
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
                     Họ và tên <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={form.name}
-                    onChange={handleChange}
-                    required
+                  <input type="text" name="name" value={form.name} onChange={handleChange} required
                     placeholder="Nguyễn Văn A"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all"
-                  />
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all"/>
                 </div>
                 <div>
                   <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
-                    Số điện thoại <span className="text-red-500">*</span>
+                    Điện thoại <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={form.phone}
-                    onChange={handleChange}
-                    required
+                  <input type="tel" name="phone" value={form.phone} onChange={handleChange} required
                     placeholder="0912 345 678"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all"
-                  />
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all"/>
                 </div>
               </div>
 
               <div>
-                <label className="text-sm font-semibold text-gray-700 mb-1.5 block">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={form.email}
-                  onChange={handleChange}
+                <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
+                  Email <span className="text-red-500">*</span>
+                </label>
+                <input type="email" name="email" value={form.email} onChange={handleChange} required
                   placeholder="email@example.com"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all"
-                />
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all"/>
               </div>
 
               <div>
-                <label className="text-sm font-semibold text-gray-700 mb-1.5 block">Nội dung cần tư vấn</label>
-                <textarea
-                  name="message"
-                  value={form.message}
-                  onChange={handleChange}
-                  rows={4}
-                  placeholder="Tôi muốn tìm hiểu về chương trình du học Úc, học bổng và điều kiện xin visa..."
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all resize-none"
-                />
+                <label className="text-sm font-semibold text-gray-700 mb-1.5 block">Địa chỉ</label>
+                <input type="text" name="address" value={form.address} onChange={handleChange}
+                  placeholder="Số nhà, đường, quận/huyện..."
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all"/>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-semibold text-gray-700 mb-1.5 block">Nhu cầu của bạn</label>
+                  <select name="need" value={form.need} onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all bg-white">
+                    <option value="">-- Chọn nhu cầu --</option>
+                    {NEEDS.map(n => <option key={n} value={n}>{n}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-sm font-semibold text-gray-700 mb-1.5 block">Tỉnh thành</label>
+                  <select name="province" value={form.province} onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all bg-white">
+                    <option value="">-- Chọn tỉnh thành --</option>
+                    {PROVINCES.map(p => <option key={p} value={p}>{p}</option>)}
+                  </select>
+                </div>
               </div>
 
               {result && (
@@ -108,11 +122,8 @@ export default function ContactForm() {
                 </div>
               )}
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-orange-500 hover:bg-orange-600 disabled:opacity-70 text-white py-3.5 rounded-xl font-bold text-sm transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
-              >
+              <button type="submit" disabled={loading}
+                className="w-full bg-orange-500 hover:bg-orange-600 disabled:opacity-70 text-white py-3.5 rounded-xl font-bold text-sm transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
                 {loading ? (
                   <>
                     <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
@@ -123,7 +134,7 @@ export default function ContactForm() {
                   </>
                 ) : (
                   <>
-                    Gửi thông tin tư vấn
+                    ĐĂNG KÝ NGAY
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
                     </svg>
@@ -132,14 +143,13 @@ export default function ContactForm() {
               </button>
 
               <p className="text-xs text-gray-400 text-center">
-                Bằng cách gửi thông tin, bạn đồng ý với <a href="#" className="text-orange-500 hover:underline">Chính sách bảo mật</a> của ABS Du Học
+                Bằng cách gửi thông tin, bạn đồng ý với <a href="#" className="text-orange-500 hover:underline">Chính sách bảo mật</a> của HCIT
               </p>
             </form>
           </div>
 
           {/* Right side */}
           <div className="animate-on-scroll space-y-6">
-            {/* Main CTA visual */}
             <div className="relative rounded-3xl overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80"
@@ -150,19 +160,19 @@ export default function ContactForm() {
               <div className="absolute inset-0 bg-gradient-to-t from-orange-900/80 via-orange-900/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                 <div className="text-4xl font-black">100%</div>
-                <div className="text-lg font-bold text-orange-200">Cam kết việc làm</div>
-                <div className="text-sm text-white/70 mt-1">Sau khi tốt nghiệp tại Úc</div>
+                <div className="text-lg font-bold text-orange-200">Cam kết tỷ lệ Visa</div>
+                <div className="text-sm text-white/70 mt-1">Nhật Bản · Hàn Quốc · Đài Loan</div>
               </div>
             </div>
 
-            {/* Contact info */}
             <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100 space-y-4">
               <h3 className="font-bold text-gray-800">Liên hệ trực tiếp</h3>
               {[
-                { icon: '📞', label: 'Hotline', value: '1900 1899' },
-                { icon: '📧', label: 'Email', value: 'info@absduhoc.edu.vn' },
-                { icon: '📍', label: 'Địa chỉ', value: '123 Nguyễn Văn Linh, Q. Hải Châu, Đà Nẵng' },
-                { icon: '⏰', label: 'Giờ làm việc', value: 'Thứ 2 – Thứ 7: 8:00 – 17:30' }
+                { icon: '📞', label: 'Hotline', value: '035.9966.168' },
+                { icon: '📞', label: 'Hotline KR', value: '010-8324-3185' },
+                { icon: '📧', label: 'Email', value: 'xkldcongthuong@gmail.com' },
+                { icon: '📍', label: 'VP tư vấn', value: 'Số 27, Luis VIII, KĐT Luis City, Đại Mỗ, Hà Nội' },
+                { icon: '🏢', label: 'Trụ sở', value: 'Số 56 Vũ Trọng Phụng, Thanh Xuân, Hà Nội' }
               ].map(c => (
                 <div key={c.label} className="flex items-start gap-3">
                   <span className="text-xl flex-shrink-0">{c.icon}</span>
@@ -174,7 +184,6 @@ export default function ContactForm() {
               ))}
             </div>
 
-            {/* Social */}
             <div className="flex gap-3">
               {[
                 { label: 'Facebook', color: 'bg-blue-600', icon: 'f' },

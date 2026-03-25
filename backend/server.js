@@ -34,13 +34,17 @@ db.exec(`
 
   CREATE TABLE IF NOT EXISTS contacts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT, phone TEXT, email TEXT, message TEXT,
+    name TEXT, phone TEXT, email TEXT, address TEXT, need TEXT, province TEXT, message TEXT,
     created_at TEXT DEFAULT (datetime('now','localtime'))
   );
 `);
 
 // Migration: thêm is_overview nếu chưa có
 try { db.exec('ALTER TABLE articles ADD COLUMN is_overview INTEGER DEFAULT 0'); } catch(e) {}
+// Migration: thêm fields mới cho contacts
+try { db.exec('ALTER TABLE contacts ADD COLUMN address TEXT'); } catch(e) {}
+try { db.exec('ALTER TABLE contacts ADD COLUMN need TEXT'); } catch(e) {}
+try { db.exec('ALTER TABLE contacts ADD COLUMN province TEXT'); } catch(e) {}
 
 // ─── SITE SETTINGS TABLE ─────────────────────────────────────────────────────
 db.exec(`
@@ -51,22 +55,32 @@ db.exec(`
 `);
 
 const defaultBanner = {
-  badge_text: 'Vươn tầm thế hệ trẻ Việt',
-  country: 'AUSTRALIA',
-  tagline: 'Du học',
-  description: 'Với phương châm "Vươn tầm thế hệ trẻ Việt", ABS hỗ trợ học sinh, sinh viên trong suốt quá trình du học Úc – từ lựa chọn trường, xin visa đến tìm kiếm việc làm tại Úc.',
-  cta_text: 'Tư vấn ngay',
-  scholarship_pct: '20',
-  scholarship_label: 'Du học Úc',
-  stat1_num: '20+', stat1_label: 'Năm kinh nghiệm',
-  stat2_num: '5000+', stat2_label: 'Du học sinh',
-  stat3_num: '100%', stat3_label: 'Cam kết việc làm',
-  img_main: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80',
-  img_secondary: 'https://images.unsplash.com/photo-1529390079861-591de354faf5?w=400&q=80',
-  img_tertiary: 'https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=300&q=80'
+  badge_text: 'Trung tâm Xúc tiến Du học HCIT',
+  country: 'CAM KẾT VISA 100%',
+  tagline: 'TUYỂN SINH DU HỌC',
+  description: 'HCIT đồng hành cùng học sinh, sinh viên Việt Nam trên con đường chinh phục ước mơ du học Nhật Bản, Hàn Quốc, Đài Loan và xuất khẩu lao động với cam kết tỷ lệ visa 100%.',
+  cta_text: 'Đăng ký ngay',
+  scholarship_pct: '100',
+  scholarship_label: 'Cam kết Visa',
+  stat1_num: '1200+', stat1_label: 'Học viên theo học',
+  stat2_num: '680+', stat2_label: 'Học viên đã bay',
+  stat3_num: '100%', stat3_label: 'Tỷ lệ đỗ visa',
+  img_main: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=600&q=80',
+  img_secondary: 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=400&q=80',
+  img_tertiary: 'https://images.unsplash.com/photo-1470004914212-05527e49370b?w=300&q=80'
 };
 const existingBanner = db.prepare("SELECT value FROM site_settings WHERE key='banner'").get();
-if (!existingBanner) db.prepare("INSERT INTO site_settings (key,value) VALUES (?,?)").run('banner', JSON.stringify(defaultBanner));
+if (!existingBanner) {
+  db.prepare("INSERT INTO site_settings (key,value) VALUES (?,?)").run('banner', JSON.stringify(defaultBanner));
+} else {
+  // Force update if still has old ABS branding
+  try {
+    const parsed = JSON.parse(existingBanner.value);
+    if (parsed.country === 'AUSTRALIA' || parsed.badge_text?.includes('ABS')) {
+      db.prepare("UPDATE site_settings SET value=? WHERE key='banner'").run(JSON.stringify(defaultBanner));
+    }
+  } catch(e) {}
+}
 
 // ─── SEED ────────────────────────────────────────────────────────────────────
 
@@ -288,10 +302,10 @@ app.post('/api/admin/login', (req, res) => {
 });
 
 app.post('/api/contact', (req, res) => {
-  const { name, phone, email, message } = req.body;
+  const { name, phone, email, address, need, province, message } = req.body;
   if (!name || !phone) return res.status(400).json({ success: false, message: 'Vui lòng điền họ tên và số điện thoại.' });
-  db.prepare('INSERT INTO contacts (name,phone,email,message) VALUES (?,?,?,?)').run(name, phone, email, message);
-  res.json({ success: true, message: 'Chúng tôi đã nhận được thông tin. Tư vấn viên sẽ liên hệ bạn sớm nhất!' });
+  db.prepare('INSERT INTO contacts (name,phone,email,address,need,province,message) VALUES (?,?,?,?,?,?,?)').run(name, phone, email, address||'', need||'', province||'', message||'');
+  res.json({ success: true, message: 'Chúng tôi đã nhận được thông tin. Tư vấn viên HCIT sẽ liên hệ bạn trong thời gian sớm nhất!' });
 });
 
 

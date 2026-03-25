@@ -2,19 +2,19 @@ import { useState, useEffect } from 'react';
 import api from '../lib/api';
 
 const defaultBanner = {
-  badge_text: 'Vươn tầm thế hệ trẻ Việt',
-  country: 'AUSTRALIA',
-  tagline: 'Du học',
-  description: 'Với phương châm "Vươn tầm thế hệ trẻ Việt", ABS hỗ trợ học sinh, sinh viên trong suốt quá trình du học Úc – từ lựa chọn trường, xin visa đến tìm kiếm việc làm tại Úc.',
-  cta_text: 'Tư vấn ngay',
-  scholarship_pct: '20',
-  scholarship_label: 'Du học Úc',
-  stat1_num: '20+', stat1_label: 'Năm kinh nghiệm',
-  stat2_num: '5000+', stat2_label: 'Du học sinh',
-  stat3_num: '100%', stat3_label: 'Cam kết việc làm',
-  img_main: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80',
-  img_secondary: 'https://images.unsplash.com/photo-1529390079861-591de354faf5?w=400&q=80',
-  img_tertiary: 'https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=300&q=80'
+  badge_text: 'Trung tâm Xúc tiến Du học HCIT',
+  country: 'CAM KẾT VISA 100%',
+  tagline: 'TUYỂN SINH DU HỌC',
+  description: 'HCIT đồng hành cùng học sinh, sinh viên Việt Nam trên con đường chinh phục ước mơ du học Nhật Bản, Hàn Quốc, Đài Loan và xuất khẩu lao động với cam kết tỷ lệ visa 100%.',
+  cta_text: 'Đăng ký ngay',
+  scholarship_pct: '100',
+  scholarship_label: 'Cam kết Visa',
+  stat1_num: '1200+', stat1_label: 'Học viên theo học',
+  stat2_num: '680+', stat2_label: 'Học viên đã bay',
+  stat3_num: '100%', stat3_label: 'Tỷ lệ đỗ visa',
+  img_main: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=600&q=80',
+  img_secondary: 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=400&q=80',
+  img_tertiary: 'https://images.unsplash.com/photo-1470004914212-05527e49370b?w=300&q=80'
 };
 
 export default function Hero() {
@@ -80,13 +80,13 @@ export default function Hero() {
                   <svg className="w-4 h-4 text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
                   </svg>
-                  Cam kết 100% việc làm
+                  🇯🇵 Nhật Bản · 🇰🇷 Hàn Quốc · 🇹🇼 Đài Loan
                 </span>
                 <span className="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-1.5">
                   <svg className="w-4 h-4 text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
                   </svg>
-                  Hỗ trợ toàn diện A–Z
+                  Hỗ trợ hồ sơ & visa A–Z
                 </span>
               </div>
             </div>
@@ -144,7 +144,7 @@ export default function Hero() {
               <div className="w-72 h-96 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/50">
                 <img
                   src={banner.img_main}
-                  alt="Du học sinh Úc"
+                  alt="Du học sinh Nhật Bản Hàn Quốc Đài Loan"
                   className="w-full h-full object-cover"
                   loading="eager"
                 />
@@ -171,12 +171,19 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* IDP badge */}
-            <div className="absolute bottom-20 left-0 z-30 bg-white rounded-2xl px-4 py-3 shadow-xl flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black text-sm">IDP</div>
-              <div>
-                <div className="text-xs font-semibold text-gray-700">Đối tác chính thức</div>
-                <div className="text-xs text-gray-400">IDP Education</div>
+            {/* Quick info badge */}
+            <div className="absolute bottom-20 left-0 z-30 bg-white rounded-2xl px-4 py-3 shadow-xl space-y-1 min-w-[200px]">
+              <div className="flex items-center gap-2 text-xs text-gray-600">
+                <span className="text-orange-500">🌐</span>
+                <span className="font-semibold">hcit.com.vn</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs text-gray-600">
+                <span className="text-orange-500">📍</span>
+                <span>Số 6, Trịnh Văn Bô, Nam Từ Liêm</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs text-gray-600">
+                <span className="text-orange-500">📞</span>
+                <a href="tel:0966198186" className="font-bold text-orange-500">0966 198 186</a>
               </div>
             </div>
           </div>
