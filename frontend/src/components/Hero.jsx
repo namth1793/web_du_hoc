@@ -12,9 +12,9 @@ const defaultBanner = {
   stat1_num: '1200+', stat1_label: 'Học viên theo học',
   stat2_num: '680+', stat2_label: 'Học viên đã bay',
   stat3_num: '100%', stat3_label: 'Tỷ lệ đỗ visa',
-  img_main: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=600&q=80',
-  img_secondary: 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=400&q=80',
-  img_tertiary: 'https://images.unsplash.com/photo-1470004914212-05527e49370b?w=300&q=80'
+  img_main: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=1600&q=80',
+  img_secondary: 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=1600&q=80',
+  img_tertiary: 'https://images.unsplash.com/photo-1470004914212-05527e49370b?w=1600&q=80'
 };
 
 export default function Hero() {
@@ -36,143 +36,109 @@ export default function Hero() {
   }, [slides.length]);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden pt-24" aria-label="Hero">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-pink-400 via-rose-300 to-orange-300" />
-
-      <div className="relative max-w-7xl mx-auto px-4 w-full">
-        <div className="grid lg:grid-cols-2 gap-8 items-center min-h-[80vh]">
-          {/* Left content */}
-          <div className="text-white space-y-5 animate-on-scroll">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white px-4 py-2 rounded-full text-sm font-medium">
-              <span className="w-2 h-2 bg-yellow-300 rounded-full animate-pulse" />
-              {banner.badge_text}
-            </div>
-
-            {/* Main heading */}
-            <div>
-              <p className="text-xl md:text-2xl font-semibold opacity-90 mb-1">{banner.tagline}</p>
-              <h1 className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-none drop-shadow-lg">
-                {banner.country}
-              </h1>
-              <div className="mt-3 flex flex-wrap gap-3 text-sm font-medium">
-                <span className="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                  Nhật Bản · Hàn Quốc · Đài Loan
-                </span>
-                <span className="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                  Hỗ trợ hồ sơ &amp; visa A–Z
-                </span>
-              </div>
-            </div>
-
-            {/* Description */}
-            <p className="text-white/90 text-base md:text-lg max-w-md leading-relaxed">
-              {banner.description}
-            </p>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-3 pt-2">
-              <a
-                href="/lien-he"
-                className="group bg-orange-500 hover:bg-orange-600 text-white px-8 py-3.5 rounded-full font-bold text-base shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center gap-2"
-              >
-                {banner.cta_text}
-                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </a>
-              <a
-                href="#intro"
-                className="bg-white/20 backdrop-blur-sm hover:bg-white/30 border border-white/40 text-white px-8 py-3.5 rounded-full font-bold text-base transition-all duration-300"
-              >
-                Tìm hiểu thêm
-              </a>
-            </div>
-
-            {/* Quick stats */}
-            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/20">
-              {[
-                { num: banner.stat1_num, label: banner.stat1_label },
-                { num: banner.stat2_num, label: banner.stat2_label },
-                { num: banner.stat3_num, label: banner.stat3_label }
-              ].map(s => (
-                <div key={s.label} className="text-center">
-                  <div className="text-2xl font-black">{s.num}</div>
-                  <div className="text-xs text-white/80 mt-0.5">{s.label}</div>
-                </div>
-              ))}
-            </div>
+    <section className="relative min-h-screen flex items-center overflow-hidden pt-20" aria-label="Hero">
+      {/* Background carousel */}
+      <div className="absolute inset-0">
+        {slides.map((src, i) => (
+          <div
+            key={i}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${i === slide ? 'opacity-100' : 'opacity-0'}`}
+          >
+            <img
+              src={src}
+              alt={`Slide ${i + 1}`}
+              className="w-full h-full object-cover"
+              loading={i === 0 ? 'eager' : 'lazy'}
+            />
           </div>
+        ))}
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black/55" />
+      </div>
 
-          {/* Right content – carousel */}
-          <div className="relative hidden lg:flex justify-center items-center">
-            {/* Scholarship badge */}
-            <div className="absolute top-0 right-0 z-20 bg-gradient-to-br from-yellow-400 to-orange-500 text-white rounded-2xl p-4 shadow-2xl text-center">
-              <div className="text-3xl font-black">{banner.scholarship_pct}%</div>
-              <div className="text-xs font-bold">HỌC BỔNG</div>
-              <div className="text-xs opacity-80">{banner.scholarship_label}</div>
-            </div>
+      {/* Content – centered */}
+      <div className="relative w-full max-w-4xl mx-auto px-4 text-center text-white py-20">
+        {/* Badge */}
+        <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/25 text-white px-5 py-2 rounded-full text-sm font-medium mb-6">
+          <span className="w-2 h-2 bg-yellow-300 rounded-full animate-pulse" />
+          {banner.badge_text}
+        </div>
 
-            {/* Carousel */}
-            <div className="relative z-10 w-72 h-96">
-              <div className="w-full h-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white/50 relative">
-                {slides.map((src, i) => (
-                  <img
-                    key={i}
-                    src={src}
-                    alt={`Slide ${i + 1}`}
-                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out ${
-                      i === slide
-                        ? 'opacity-100 translate-x-0'
-                        : i < slide
-                          ? 'opacity-0 -translate-x-full'
-                          : 'opacity-0 translate-x-full'
-                    }`}
-                    loading={i === 0 ? 'eager' : 'lazy'}
-                  />
-                ))}
-                {/* Dot indicators */}
-                {slides.length > 1 && (
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                    {slides.map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setSlide(i)}
-                        className={`rounded-full transition-all duration-300 ${
-                          i === slide ? 'w-6 h-2.5 bg-white' : 'w-2.5 h-2.5 bg-white/60'
-                        }`}
-                        aria-label={`Slide ${i + 1}`}
-                      />
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
+        {/* Main heading */}
+        <p className="text-lg md:text-xl font-semibold text-white/80 mb-2 tracking-wide uppercase">
+          {banner.tagline}
+        </p>
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-4 drop-shadow-xl">
+          {banner.country}
+        </h1>
+        <div className="flex flex-wrap justify-center gap-2 mb-6">
+          <span className="bg-white/15 backdrop-blur-sm border border-white/25 px-4 py-1.5 rounded-full text-sm font-medium">
+            Nhật Bản · Hàn Quốc · Đài Loan
+          </span>
+          <span className="bg-white/15 backdrop-blur-sm border border-white/25 px-4 py-1.5 rounded-full text-sm font-medium">
+            Hỗ trợ hồ sơ & visa A–Z
+          </span>
+        </div>
 
-            {/* Quick info badge */}
-            <div className="absolute bottom-20 left-0 z-30 bg-white rounded-2xl px-4 py-3 shadow-xl space-y-1 min-w-[200px]">
-              <div className="flex items-center gap-2 text-xs text-gray-600">
-                <span className="text-orange-500 font-bold">Web</span>
-                <span className="font-semibold">hcit.com.vn</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-gray-600">
-                <span className="text-orange-500 font-bold">DC</span>
-                <span>Số 6, Trịnh Văn Bô, Nam Từ Liêm</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-gray-600">
-                <span className="text-orange-500 font-bold">ĐT</span>
-                <a href="tel:0966198186" className="font-bold text-orange-500">0966 198 186</a>
-              </div>
+        {/* Description */}
+        <p className="text-white/85 text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-8">
+          {banner.description}
+        </p>
+
+        {/* CTAs */}
+        <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <a
+            href="/lien-he"
+            className="group bg-orange-500 hover:bg-orange-600 text-white px-8 py-3.5 rounded-full font-bold text-base shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center gap-2"
+          >
+            {banner.cta_text}
+            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </a>
+          <a
+            href="#intro"
+            className="bg-white/15 backdrop-blur-sm hover:bg-white/25 border border-white/40 text-white px-8 py-3.5 rounded-full font-bold text-base transition-all duration-300"
+          >
+            Tìm hiểu thêm
+          </a>
+        </div>
+
+        {/* Stats bar */}
+        <div className="flex flex-wrap justify-center gap-8 md:gap-16 pt-8 border-t border-white/20">
+          {[
+            { num: banner.stat1_num, label: banner.stat1_label },
+            { num: banner.stat2_num, label: banner.stat2_label },
+            { num: banner.stat3_num, label: banner.stat3_label }
+          ].map(s => (
+            <div key={s.label} className="text-center">
+              <div className="text-3xl md:text-4xl font-black text-orange-400">{s.num}</div>
+              <div className="text-xs text-white/70 mt-1">{s.label}</div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
 
+      {/* Slide indicators */}
+      {slides.length > 1 && (
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setSlide(i)}
+              className={`rounded-full transition-all duration-300 ${
+                i === slide ? 'w-8 h-2.5 bg-orange-400' : 'w-2.5 h-2.5 bg-white/50'
+              }`}
+              aria-label={`Slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
+
       {/* Wave bottom */}
       <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z"/>
+        <svg viewBox="0 0 1440 60" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/>
         </svg>
       </div>
     </section>
