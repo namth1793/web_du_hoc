@@ -120,12 +120,10 @@ export default function Header() {
       <div className="bg-orange-500 text-white text-xs py-1.5 px-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <a href="mailto:xkldcongthuong@gmail.com" className="flex items-center gap-1 hover:text-orange-200 transition-colors">
-              <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+            <a href="mailto:xkldcongthuong@gmail.com" className="hover:text-orange-200 transition-colors">
               xkldcongthuong@gmail.com
             </a>
-            <a href="tel:035.9966.168" className="flex items-center gap-1 hover:text-orange-200 transition-colors">
-              <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+            <a href="tel:0359966168" className="hover:text-orange-200 transition-colors">
               035.9966.168
             </a>
           </div>
@@ -160,7 +158,6 @@ export default function Header() {
           <div className="flex items-center gap-2">
             <Link to="/lien-he"
               className="hidden md:flex items-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 shadow-md hover:shadow-lg">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/></svg>
               Đăng ký tư vấn
             </Link>
 

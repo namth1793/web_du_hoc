@@ -19,6 +19,7 @@ const defaultBanner = {
 
 export default function Hero() {
   const [banner, setBanner] = useState(defaultBanner);
+  const [slide, setSlide] = useState(0);
 
   useEffect(() => {
     api.get('/api/settings/banner')
@@ -26,38 +27,18 @@ export default function Hero() {
       .catch(() => {});
   }, []);
 
+  const slides = [banner.img_main, banner.img_secondary, banner.img_tertiary].filter(Boolean);
+
+  useEffect(() => {
+    if (slides.length < 2) return;
+    const timer = setInterval(() => setSlide(p => (p + 1) % slides.length), 4500);
+    return () => clearInterval(timer);
+  }, [slides.length]);
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-24" aria-label="Hero">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-pink-400 via-rose-300 to-orange-300" />
-
-      {/* Decorative circles */}
-      <div className="absolute top-20 left-10 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl" />
-      <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-pink-200/30 rounded-full blur-2xl" />
-
-      {/* Floating clouds */}
-      <div className="absolute top-32 left-1/4 opacity-60">
-        <svg width="120" height="60" viewBox="0 0 120 60" fill="white">
-          <ellipse cx="60" cy="40" rx="55" ry="20"/>
-          <ellipse cx="45" cy="30" rx="30" ry="22"/>
-          <ellipse cx="75" cy="28" rx="25" ry="20"/>
-        </svg>
-      </div>
-      <div className="absolute top-40 right-1/3 opacity-40">
-        <svg width="80" height="40" viewBox="0 0 80 40" fill="white">
-          <ellipse cx="40" cy="28" rx="36" ry="13"/>
-          <ellipse cx="30" cy="20" rx="20" ry="15"/>
-          <ellipse cx="52" cy="18" rx="18" ry="14"/>
-        </svg>
-      </div>
-
-      {/* Plane */}
-      <div className="absolute top-36 right-1/4 animate-bounce-slow opacity-80">
-        <svg width="60" height="60" viewBox="0 0 64 64" fill="white">
-          <path d="M59.5,28.5l-18-4.5L24,6H18l8,18H10L6,18H2l4,14L2,46h4l4-6h16l-8,18h6l17.5-18l18-4.5c2.5-0.5,4.5-2.7,4.5-5.2 C64,31.2,62,29,59.5,28.5z"/>
-        </svg>
-      </div>
 
       <div className="relative max-w-7xl mx-auto px-4 w-full">
         <div className="grid lg:grid-cols-2 gap-8 items-center min-h-[80vh]">
@@ -76,17 +57,11 @@ export default function Hero() {
                 {banner.country}
               </h1>
               <div className="mt-3 flex flex-wrap gap-3 text-sm font-medium">
-                <span className="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-1.5">
-                  <svg className="w-4 h-4 text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-                  </svg>
-                  🇯🇵 Nhật Bản · 🇰🇷 Hàn Quốc · 🇹🇼 Đài Loan
+                <span className="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                  Nhật Bản · Hàn Quốc · Đài Loan
                 </span>
-                <span className="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-1.5">
-                  <svg className="w-4 h-4 text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-                  </svg>
-                  Hỗ trợ hồ sơ & visa A–Z
+                <span className="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                  Hỗ trợ hồ sơ &amp; visa A–Z
                 </span>
               </div>
             </div>
@@ -130,59 +105,63 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right content – student images + scholarship badge */}
+          {/* Right content – carousel */}
           <div className="relative hidden lg:flex justify-center items-center">
             {/* Scholarship badge */}
-            <div className="absolute top-0 right-0 z-20 bg-gradient-to-br from-yellow-400 to-orange-500 text-white rounded-2xl p-4 shadow-2xl text-center animate-bounce-slow">
+            <div className="absolute top-0 right-0 z-20 bg-gradient-to-br from-yellow-400 to-orange-500 text-white rounded-2xl p-4 shadow-2xl text-center">
               <div className="text-3xl font-black">{banner.scholarship_pct}%</div>
               <div className="text-xs font-bold">HỌC BỔNG</div>
               <div className="text-xs opacity-80">{banner.scholarship_label}</div>
             </div>
 
-            {/* Main student image */}
-            <div className="relative z-10">
-              <div className="w-72 h-96 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/50">
-                <img
-                  src={banner.img_main}
-                  alt="Du học sinh Nhật Bản Hàn Quốc Đài Loan"
-                  className="w-full h-full object-cover"
-                  loading="eager"
-                />
-              </div>
-
-              {/* Secondary image */}
-              <div className="absolute -bottom-8 -right-10 w-44 h-56 rounded-2xl overflow-hidden shadow-2xl border-4 border-white z-20">
-                <img
-                  src={banner.img_secondary}
-                  alt="Sinh viên vui vẻ"
-                  className="w-full h-full object-cover"
-                  loading="eager"
-                />
-              </div>
-
-              {/* Third image */}
-              <div className="absolute -top-6 -left-10 w-36 h-36 rounded-2xl overflow-hidden shadow-xl border-4 border-white z-20">
-                <img
-                  src={banner.img_tertiary}
-                  alt="Sinh viên tốt nghiệp"
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
+            {/* Carousel */}
+            <div className="relative z-10 w-72 h-96">
+              <div className="w-full h-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white/50 relative">
+                {slides.map((src, i) => (
+                  <img
+                    key={i}
+                    src={src}
+                    alt={`Slide ${i + 1}`}
+                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out ${
+                      i === slide
+                        ? 'opacity-100 translate-x-0'
+                        : i < slide
+                          ? 'opacity-0 -translate-x-full'
+                          : 'opacity-0 translate-x-full'
+                    }`}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                  />
+                ))}
+                {/* Dot indicators */}
+                {slides.length > 1 && (
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                    {slides.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setSlide(i)}
+                        className={`rounded-full transition-all duration-300 ${
+                          i === slide ? 'w-6 h-2.5 bg-white' : 'w-2.5 h-2.5 bg-white/60'
+                        }`}
+                        aria-label={`Slide ${i + 1}`}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Quick info badge */}
             <div className="absolute bottom-20 left-0 z-30 bg-white rounded-2xl px-4 py-3 shadow-xl space-y-1 min-w-[200px]">
               <div className="flex items-center gap-2 text-xs text-gray-600">
-                <span className="text-orange-500">🌐</span>
+                <span className="text-orange-500 font-bold">Web</span>
                 <span className="font-semibold">hcit.com.vn</span>
               </div>
               <div className="flex items-center gap-2 text-xs text-gray-600">
-                <span className="text-orange-500">📍</span>
+                <span className="text-orange-500 font-bold">DC</span>
                 <span>Số 6, Trịnh Văn Bô, Nam Từ Liêm</span>
               </div>
               <div className="flex items-center gap-2 text-xs text-gray-600">
-                <span className="text-orange-500">📞</span>
+                <span className="text-orange-500 font-bold">ĐT</span>
                 <a href="tel:0966198186" className="font-bold text-orange-500">0966 198 186</a>
               </div>
             </div>

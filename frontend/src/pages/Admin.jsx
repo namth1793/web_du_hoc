@@ -184,7 +184,7 @@ function ArticleModal({ article, onSave, onClose }) {
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
       <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl my-8">
         <div className="p-6 border-b border-gray-100 flex items-center justify-between">
-          <h2 className="text-lg font-bold text-gray-800">{isEdit ? '✏️ Chỉnh sửa bài viết' : '➕ Thêm bài viết mới'}</h2>
+          <h2 className="text-lg font-bold text-gray-800">{isEdit ? 'Chỉnh sửa bài viết' : 'Thêm bài viết mới'}</h2>
           <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-xl transition-colors">
             <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
@@ -291,7 +291,7 @@ function ArticleModal({ article, onSave, onClose }) {
             </button>
             <button type="submit" disabled={loading}
               className="flex-1 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-sm transition-all shadow-md flex items-center justify-center gap-2">
-              {loading ? <><span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />Đang lưu...</> : (isEdit ? '💾 Lưu thay đổi' : '✅ Thêm bài viết')}
+              {loading ? <><span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />Đang lưu...</> : (isEdit ? 'Lưu thay đổi' : 'Thêm bài viết')}
             </button>
             <button type="button" onClick={onClose}
               className="px-6 py-3 border border-gray-200 text-gray-600 rounded-xl font-semibold text-sm hover:bg-gray-50 transition-all">
@@ -329,7 +329,7 @@ function DeleteConfirm({ article, onConfirm, onClose }) {
         <div className="flex gap-3">
           <button onClick={handleDelete} disabled={loading}
             className="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2">
-            {loading ? <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" /> : '🗑️'} Xóa
+            {loading ? <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" /> : null} Xóa
           </button>
           <button onClick={onClose} className="flex-1 border border-gray-200 text-gray-600 py-3 rounded-xl font-semibold text-sm hover:bg-gray-50 transition-all">
             Hủy
@@ -358,6 +358,28 @@ export default function Admin() {
   });
   const [bannerLoading, setBannerLoading] = useState(false);
   const [bannerSaved, setBannerSaved] = useState(false);
+  const [bannerImgUploading, setBannerImgUploading] = useState({ img_main: false, img_secondary: false, img_tertiary: false });
+  const [bannerImgError, setBannerImgError] = useState('');
+  const bannerRefMain = useRef(null);
+  const bannerRefSecondary = useRef(null);
+  const bannerRefTertiary = useRef(null);
+  const bannerImgRefs = { img_main: bannerRefMain, img_secondary: bannerRefSecondary, img_tertiary: bannerRefTertiary };
+
+  const handleBannerImageUpload = async (field, e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!cloudinaryReady) { setBannerImgError('Chưa cấu hình Cloudinary.'); return; }
+    setBannerImgUploading(p => ({ ...p, [field]: true }));
+    setBannerImgError('');
+    try {
+      const url = await uploadToCloudinary(file);
+      setBannerForm(f => ({ ...f, [field]: url }));
+    } catch { setBannerImgError('Upload thất bại. Kiểm tra Cloudinary config.'); }
+    finally {
+      setBannerImgUploading(p => ({ ...p, [field]: false }));
+      e.target.value = '';
+    }
+  };
 
   const fetchArticles = () => {
     setLoading(true);
@@ -471,9 +493,6 @@ export default function Admin() {
                 { key: 'stat2_label', label: 'Thống kê 2 - Nhãn' },
                 { key: 'stat3_num', label: 'Thống kê 3 - Số' },
                 { key: 'stat3_label', label: 'Thống kê 3 - Nhãn' },
-                { key: 'img_main', label: 'URL ảnh chính' },
-                { key: 'img_secondary', label: 'URL ảnh phụ' },
-                { key: 'img_tertiary', label: 'URL ảnh thứ 3' },
               ].map(({ key, label }) => (
                 <div key={key}>
                   <label className="text-sm font-semibold text-gray-700 mb-1.5 block">{label}</label>
@@ -484,6 +503,55 @@ export default function Admin() {
                   />
                 </div>
               ))}
+
+              {/* Image upload fields */}
+              {[
+                { key: 'img_main', label: 'Ảnh carousel 1 (chính)' },
+                { key: 'img_secondary', label: 'Ảnh carousel 2' },
+                { key: 'img_tertiary', label: 'Ảnh carousel 3' },
+              ].map(({ key, label }) => (
+                <div key={key}>
+                  <label className="text-sm font-semibold text-gray-700 mb-1.5 block">{label}</label>
+                  <input ref={bannerImgRefs[key]} type="file" accept="image/*"
+                    onChange={e => handleBannerImageUpload(key, e)} className="hidden" />
+                  <button
+                    type="button"
+                    onClick={() => bannerImgRefs[key].current?.click()}
+                    disabled={bannerImgUploading[key]}
+                    className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border transition-all ${
+                      bannerImgUploading[key]
+                        ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
+                        : 'bg-orange-50 hover:bg-orange-100 text-orange-600 border-orange-200'
+                    }`}
+                  >
+                    {bannerImgUploading[key] ? (
+                      <><span className="animate-spin w-4 h-4 border-2 border-orange-300 border-t-orange-600 rounded-full" />Đang tải lên...</>
+                    ) : (
+                      <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                      {bannerForm[key] ? 'Thay ảnh' : 'Tải ảnh lên'}</>
+                    )}
+                  </button>
+                  {bannerForm[key] && (
+                    <div className="mt-2 relative">
+                      <img src={bannerForm[key]} alt={label}
+                        className="h-28 w-full object-cover rounded-xl border border-gray-200"
+                        onError={e => e.target.style.display='none'} />
+                      <button type="button"
+                        onClick={() => setBannerForm(f => ({ ...f, [key]: '' }))}
+                        className="absolute top-2 right-2 w-6 h-6 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center shadow-md transition-colors text-xs font-bold">
+                        ×
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {!cloudinaryReady && (
+                <p className="text-xs text-amber-600 bg-amber-50 px-3 py-2 rounded-lg">
+                  Chưa cấu hình Cloudinary — điền <code className="bg-amber-100 px-1 rounded">VITE_CLOUDINARY_CLOUD_NAME</code> và <code className="bg-amber-100 px-1 rounded">VITE_CLOUDINARY_UPLOAD_PRESET</code> trong <code className="bg-amber-100 px-1 rounded">frontend/.env</code>
+                </p>
+              )}
+              {bannerImgError && <p className="text-xs text-red-600 bg-red-50 px-3 py-2 rounded-lg">{bannerImgError}</p>}
               <div>
                 <label className="text-sm font-semibold text-gray-700 mb-1.5 block">Mô tả</label>
                 <textarea
@@ -496,7 +564,7 @@ export default function Admin() {
               <div className="flex items-center gap-3 pt-2">
                 <button onClick={handleBannerSave} disabled={bannerLoading}
                   className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-md flex items-center gap-2">
-                  {bannerLoading ? <><span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />Đang lưu...</> : '💾 Lưu banner'}
+                  {bannerLoading ? <><span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />Đang lưu...</> : 'Lưu banner'}
                 </button>
                 {bannerSaved && <span className="text-green-600 text-sm font-semibold">Đã lưu thành công!</span>}
               </div>
@@ -507,13 +575,12 @@ export default function Admin() {
         {/* Stats cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[
-            { label: 'Tổng bài viết', value: articles.length, color: 'from-orange-400 to-orange-500', icon: '📝' },
-            { label: 'Đã xuất bản', value: articles.filter(a => a.is_published).length, color: 'from-green-400 to-green-500', icon: '✅' },
-            { label: 'Chưa xuất bản', value: articles.filter(a => !a.is_published).length, color: 'from-gray-400 to-gray-500', icon: '📋' },
-            { label: 'Chuyên mục', value: Object.values(SECTIONS).reduce((s, v) => s + Object.keys(v.subcategories).length, 0), color: 'from-blue-400 to-blue-500', icon: '📂' }
+            { label: 'Tổng bài viết', value: articles.length, color: 'from-orange-400 to-orange-500' },
+            { label: 'Đã xuất bản', value: articles.filter(a => a.is_published).length, color: 'from-green-400 to-green-500' },
+            { label: 'Chưa xuất bản', value: articles.filter(a => !a.is_published).length, color: 'from-gray-400 to-gray-500' },
+            { label: 'Chuyên mục', value: Object.values(SECTIONS).reduce((s, v) => s + Object.keys(v.subcategories).length, 0), color: 'from-blue-400 to-blue-500' }
           ].map(s => (
             <div key={s.label} className={`bg-gradient-to-br ${s.color} rounded-2xl p-5 text-white shadow-md`}>
-              <div className="text-3xl mb-1">{s.icon}</div>
               <div className="text-3xl font-black">{s.value}</div>
               <div className="text-sm opacity-80 mt-0.5">{s.label}</div>
             </div>

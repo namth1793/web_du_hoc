@@ -12,21 +12,21 @@ const NEEDS = [
 
 const offices = [
   {
-    icon: '🏢',
+    abbr: 'VP',
     label: 'Văn phòng tư vấn',
     address: 'Số 27, Luis VIII, KĐT Luis City, Đại Mỗ, Nam Từ Liêm, Hà Nội',
     color: 'bg-orange-50 border-orange-200',
     iconBg: 'bg-orange-500'
   },
   {
-    icon: '🏛️',
+    abbr: 'HN',
     label: 'Trụ sở chính',
     address: 'Số 56 Vũ Trọng Phụng, Phường Thanh Xuân Trung, Quận Thanh Xuân, Hà Nội',
     color: 'bg-blue-50 border-blue-200',
     iconBg: 'bg-blue-500'
   },
   {
-    icon: '🌏',
+    abbr: 'KR',
     label: 'Văn phòng đại diện Hàn Quốc',
     address: '7, Daegudeul 2-gil, Yangsan-si, Gyeongsangnam-do, Hàn Quốc',
     color: 'bg-green-50 border-green-200',
@@ -81,8 +81,8 @@ export default function LienHe() {
         <div className="grid md:grid-cols-3 gap-5 mb-12">
           {offices.map((o, i) => (
             <div key={i} className={`rounded-2xl border p-5 ${o.color}`}>
-              <div className={`w-10 h-10 ${o.iconBg} rounded-xl flex items-center justify-center text-xl mb-3`}>
-                {o.icon}
+              <div className={`w-10 h-10 ${o.iconBg} rounded-xl flex items-center justify-center text-white font-black text-xs mb-3`}>
+                {o.abbr}
               </div>
               <h3 className="font-bold text-gray-800 mb-1.5">{o.label}</h3>
               <p className="text-sm text-gray-600 leading-relaxed">{o.address}</p>
@@ -210,14 +210,14 @@ export default function LienHe() {
               </h3>
               <div className="space-y-4">
                 {[
-                  { icon: '📞', label: 'Hotline (VN)', value: '035.9966.168', href: 'tel:035.9966.168' },
-                  { icon: '📞', label: 'Hotline (KR)', value: '010-8324-3185', href: 'tel:010-8324-3185' },
-                  { icon: '📧', label: 'Email', value: 'xkldcongthuong@gmail.com', href: 'mailto:xkldcongthuong@gmail.com' },
-                  { icon: '🌐', label: 'Website', value: 'hcit.com.vn', href: '#' }
+                  { abbr: 'VN', label: 'Hotline (VN)', value: '035.9966.168', href: 'tel:0359966168' },
+                  { abbr: 'KR', label: 'Hotline (KR)', value: '010-8324-3185', href: 'tel:01083243185' },
+                  { abbr: 'EM', label: 'Email', value: 'xkldcongthuong@gmail.com', href: 'mailto:xkldcongthuong@gmail.com' },
+                  { abbr: 'WB', label: 'Website', value: 'hcit.com.vn', href: '#' }
                 ].map(c => (
                   <a key={c.label} href={c.href}
                     className="flex items-center gap-3 group hover:bg-orange-50 rounded-xl p-2 -mx-2 transition-colors">
-                    <span className="text-xl flex-shrink-0">{c.icon}</span>
+                    <span className="w-8 h-8 bg-orange-100 text-orange-600 rounded-lg flex items-center justify-center font-black text-xs flex-shrink-0">{c.abbr}</span>
                     <div>
                       <div className="text-xs text-gray-400 font-medium">{c.label}</div>
                       <div className="text-sm font-semibold text-gray-700 group-hover:text-orange-500 transition-colors">{c.value}</div>

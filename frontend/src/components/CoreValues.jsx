@@ -1,6 +1,5 @@
 const values = [
   {
-    icon: '🏆',
     title: 'Tầm nhìn',
     color: 'from-yellow-400 to-orange-400',
     bg: 'bg-yellow-50',
@@ -9,7 +8,6 @@ const values = [
     highlight: 'Đơn vị hàng đầu'
   },
   {
-    icon: '🌏',
     title: 'Sứ mệnh',
     color: 'from-blue-400 to-cyan-400',
     bg: 'bg-blue-50',
@@ -18,7 +16,6 @@ const values = [
     highlight: 'Kết nối quốc tế'
   },
   {
-    icon: '✅',
     title: 'Giá trị cốt lõi',
     color: 'from-pink-400 to-rose-400',
     bg: 'bg-pink-50',
@@ -44,10 +41,6 @@ export default function CoreValues() {
               className={`card-hover animate-on-scroll rounded-3xl p-8 border-2 ${v.bg} ${v.border} flex flex-col gap-5`}
               style={{ animationDelay: `${i * 0.15}s` }}
             >
-              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${v.color} flex items-center justify-center text-3xl shadow-lg`}>
-                {v.icon}
-              </div>
-
               <span className={`text-xs font-bold px-3 py-1 rounded-full bg-gradient-to-r ${v.color} text-white self-start`}>
                 {v.highlight}
               </span>

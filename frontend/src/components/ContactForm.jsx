@@ -168,14 +168,14 @@ export default function ContactForm() {
             <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100 space-y-4">
               <h3 className="font-bold text-gray-800">Liên hệ trực tiếp</h3>
               {[
-                { icon: '📞', label: 'Hotline', value: '035.9966.168' },
-                { icon: '📞', label: 'Hotline KR', value: '010-8324-3185' },
-                { icon: '📧', label: 'Email', value: 'xkldcongthuong@gmail.com' },
-                { icon: '📍', label: 'VP tư vấn', value: 'Số 27, Luis VIII, KĐT Luis City, Đại Mỗ, Hà Nội' },
-                { icon: '🏢', label: 'Trụ sở', value: 'Số 56 Vũ Trọng Phụng, Thanh Xuân, Hà Nội' }
+                { label: 'Hotline', value: '035.9966.168' },
+                { label: 'Hotline KR', value: '010-8324-3185' },
+                { label: 'Email', value: 'xkldcongthuong@gmail.com' },
+                { label: 'VP tư vấn', value: 'Số 27, Luis VIII, KĐT Luis City, Đại Mỗ, Hà Nội' },
+                { label: 'Trụ sở', value: 'Số 56 Vũ Trọng Phụng, Thanh Xuân, Hà Nội' }
               ].map(c => (
                 <div key={c.label} className="flex items-start gap-3">
-                  <span className="text-xl flex-shrink-0">{c.icon}</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange-400 mt-1.5 flex-shrink-0" />
                   <div>
                     <div className="text-xs text-gray-400 font-medium">{c.label}</div>
                     <div className="text-sm font-semibold text-gray-700">{c.value}</div>

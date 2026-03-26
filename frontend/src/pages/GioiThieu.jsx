@@ -24,11 +24,11 @@ function GioiThieuChung() {
     { num: '06', title: 'Nhập học và trải nghiệm', desc: 'Hỗ trợ ổn định, định hướng cuộc sống và học tập/làm việc tại nước ngoài' }
   ];
   const advantages = [
-    { icon: '👨‍💼', title: 'Tư vấn viên chuyên nghiệp', desc: 'Đội ngũ có kinh nghiệm tư vấn du học & xuất khẩu lao động, tận tình và trách nhiệm' },
-    { icon: '🛠️', title: 'Dịch vụ toàn diện', desc: 'Hỗ trợ từ A-Z: từ chuẩn bị hồ sơ, xin visa đến nhập học và ổn định cuộc sống' },
-    { icon: '✅', title: 'Tỷ lệ hồ sơ thành công cao', desc: 'Tư vấn đúng hướng, phù hợp năng lực học viên giúp tăng tỷ lệ đỗ visa' },
-    { icon: '📊', title: 'Thông tin đầy đủ, chính xác', desc: 'Cung cấp thông tin minh bạch, cập nhật liên tục về thị trường du học & lao động' },
-    { icon: '🎓', title: 'Đào tạo chuyên sâu', desc: 'Khóa học đa dạng với đội ngũ giảng viên giàu kinh nghiệm, cơ sở vật chất hiện đại' }
+    { title: 'Tư vấn viên chuyên nghiệp', desc: 'Đội ngũ có kinh nghiệm tư vấn du học & xuất khẩu lao động, tận tình và trách nhiệm' },
+    { title: 'Dịch vụ toàn diện', desc: 'Hỗ trợ từ A-Z: từ chuẩn bị hồ sơ, xin visa đến nhập học và ổn định cuộc sống' },
+    { title: 'Tỷ lệ hồ sơ thành công cao', desc: 'Tư vấn đúng hướng, phù hợp năng lực học viên giúp tăng tỷ lệ đỗ visa' },
+    { title: 'Thông tin đầy đủ, chính xác', desc: 'Cung cấp thông tin minh bạch, cập nhật liên tục về thị trường du học & lao động' },
+    { title: 'Đào tạo chuyên sâu', desc: 'Khóa học đa dạng với đội ngũ giảng viên giàu kinh nghiệm, cơ sở vật chất hiện đại' }
   ];
 
   return (
@@ -104,7 +104,7 @@ function GioiThieuChung() {
         <div className="space-y-4">
           {advantages.map((a, i) => (
             <div key={i} className="flex gap-4 bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-              <div className="text-2xl flex-shrink-0">{a.icon}</div>
+              <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600 font-black text-sm flex-shrink-0">{i + 1}</div>
               <div>
                 <div className="font-bold text-gray-800 mb-1">{a.title}</div>
                 <div className="text-sm text-gray-500 leading-relaxed">{a.desc}</div>
@@ -142,7 +142,7 @@ function TamNhinSuMenh() {
       {/* Vision */}
       <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-2xl p-6 border border-orange-100">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white text-xl">🏆</div>
+          <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white font-black text-xs">TN</div>
           <h2 className="text-xl font-bold text-gray-800">Tầm nhìn</h2>
         </div>
         <p className="text-gray-700 leading-relaxed">
@@ -153,7 +153,7 @@ function TamNhinSuMenh() {
       {/* Mission */}
       <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-100">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center text-white text-xl">🌏</div>
+          <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center text-white font-black text-xs">SM</div>
           <h2 className="text-xl font-bold text-gray-800">Sứ mệnh</h2>
         </div>
         <ul className="space-y-3">
@@ -171,7 +171,7 @@ function TamNhinSuMenh() {
       {/* Core Values */}
       <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-2xl p-6 border border-pink-100">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-pink-500 rounded-xl flex items-center justify-center text-white text-xl">✅</div>
+          <div className="w-10 h-10 bg-pink-500 rounded-xl flex items-center justify-center text-white font-black text-xs">GT</div>
           <h2 className="text-xl font-bold text-gray-800">Giá trị cốt lõi</h2>
         </div>
         <ul className="space-y-3">
@@ -187,7 +187,7 @@ function TamNhinSuMenh() {
       {/* Why HCIT */}
       <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-100">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center text-white text-xl">⭐</div>
+          <div className="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center text-white font-black text-xs">VS</div>
           <h2 className="text-xl font-bold text-gray-800">Vì sao chọn chúng tôi</h2>
         </div>
         <ul className="space-y-3">
@@ -230,7 +230,7 @@ function CoCauToChuc() {
           </p>
           <p>Mỗi năm Trường đào tạo cho ra trường hơn <strong>4.000 sinh viên</strong>.</p>
           <div className="flex items-start gap-2 bg-blue-50 rounded-xl p-3">
-            <span className="text-blue-500">📍</span>
+            <span className="text-blue-500 font-bold text-xs">DC</span>
             <span><strong>Trụ sở chính:</strong> Số 54A1, phố Vũ Trọng Phụng, quận Thanh Xuân, thành phố Hà Nội</span>
           </div>
         </div>
@@ -255,7 +255,7 @@ function CoCauToChuc() {
             Ngoài ra, HCIT., JSC cũng cung cấp dịch vụ tư vấn du học, xuất khẩu lao động cho học sinh, sinh viên và người lao động trên cả nước đi học tập, làm việc tại các nước như: <strong>Hàn Quốc, Nhật Bản, Đài Loan...</strong>
           </p>
           <div className="flex items-start gap-2 bg-orange-50 rounded-xl p-3">
-            <span className="text-orange-500">📍</span>
+            <span className="text-orange-500 font-bold text-xs">DC</span>
             <span><strong>Trụ sở chính:</strong> Số 56, phố Vũ Trọng Phụng, quận Thanh Xuân, thành phố Hà Nội</span>
           </div>
         </div>
@@ -264,7 +264,7 @@ function CoCauToChuc() {
       {/* Training Facility */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
         <div className="flex items-center gap-3 mb-5">
-          <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center text-white text-2xl">🏫</div>
+          <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center text-white font-black text-xs">CS</div>
           <h2 className="text-lg font-bold text-gray-800">Cơ sở đào tạo</h2>
         </div>
         <div className="space-y-3 text-gray-600 leading-relaxed text-sm">
@@ -272,7 +272,7 @@ function CoCauToChuc() {
             HCIT có cơ sở đào tạo rộng trên <strong>20.000 m²</strong> là cơ sở thực hiện các hoạt động đào tạo và liên kết đào tạo ngoại ngữ, bồi dưỡng nâng cao tay nghề và giáo dục định hướng cho du học sinh, người lao động trước khi đi học tập, làm việc ở nước ngoài.
           </p>
           <div className="flex items-start gap-2 bg-green-50 rounded-xl p-3">
-            <span className="text-green-500">📍</span>
+            <span className="text-green-500 font-bold text-xs">DC</span>
             <span><strong>Địa chỉ:</strong> Xã Đại Áng, huyện Thanh Trì, thành phố Hà Nội</span>
           </div>
         </div>

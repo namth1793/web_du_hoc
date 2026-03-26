@@ -16,6 +16,7 @@ import Testimonials from './components/Testimonials';
 import EventsNews from './components/EventsNews';
 import MediaLogos from './components/MediaLogos';
 import Footer from './components/Footer';
+import FloatingContact from './components/FloatingContact';
 import ArticleList from './pages/ArticleList';
 import ArticleDetail from './pages/ArticleDetail';
 import Admin from './pages/Admin';
@@ -54,6 +55,7 @@ function Layout() {
     <div className="overflow-x-hidden">
       <ScrollToTop />
       {!isAdmin && <Header />}
+      {!isAdmin && <FloatingContact />}
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />

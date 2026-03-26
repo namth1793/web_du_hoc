@@ -47,14 +47,14 @@ export default function MediaLogos() {
           <p className="text-center text-sm text-gray-500 mb-6 font-medium">Quốc gia đối tác</p>
           <div className="flex flex-wrap justify-center gap-3">
             {[
-              { name: '🇯🇵 Nhật Bản', bg: 'bg-red-50 text-red-600 border-red-200' },
-              { name: '🇰🇷 Hàn Quốc', bg: 'bg-blue-50 text-blue-600 border-blue-200' },
-              { name: '🇹🇼 Đài Loan', bg: 'bg-green-50 text-green-600 border-green-200' },
-              { name: '🏫 Trường đại học Hàn Quốc', bg: 'bg-indigo-50 text-indigo-600 border-indigo-200' },
-              { name: '🏫 Trường đại học Đài Loan', bg: 'bg-purple-50 text-purple-600 border-purple-200' },
-              { name: '🏢 Doanh nghiệp Nhật Bản', bg: 'bg-orange-50 text-orange-600 border-orange-200' },
-              { name: '🏢 Doanh nghiệp Hàn Quốc', bg: 'bg-sky-50 text-sky-600 border-sky-200' },
-              { name: '📋 Tổ chức giáo dục quốc tế', bg: 'bg-yellow-50 text-yellow-700 border-yellow-200' }
+              { name: 'Nhật Bản', bg: 'bg-red-50 text-red-600 border-red-200' },
+              { name: 'Hàn Quốc', bg: 'bg-blue-50 text-blue-600 border-blue-200' },
+              { name: 'Đài Loan', bg: 'bg-green-50 text-green-600 border-green-200' },
+              { name: 'Trường đại học Hàn Quốc', bg: 'bg-indigo-50 text-indigo-600 border-indigo-200' },
+              { name: 'Trường đại học Đài Loan', bg: 'bg-purple-50 text-purple-600 border-purple-200' },
+              { name: 'Doanh nghiệp Nhật Bản', bg: 'bg-orange-50 text-orange-600 border-orange-200' },
+              { name: 'Doanh nghiệp Hàn Quốc', bg: 'bg-sky-50 text-sky-600 border-sky-200' },
+              { name: 'Tổ chức giáo dục quốc tế', bg: 'bg-yellow-50 text-yellow-700 border-yellow-200' }
             ].map(m => (
               <span
                 key={m.name}
@@ -69,13 +69,12 @@ export default function MediaLogos() {
         {/* Trust badges */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-14 animate-on-scroll">
           {[
-            { icon: '🏆', title: 'Giấy phép XKLĐ', subtitle: 'Số 368/LĐTBXH-GP' },
-            { icon: '✅', title: 'Được cấp phép', subtitle: 'Bộ LĐ-TB và XH Việt Nam' },
-            { icon: '🌏', title: 'Đối tác quốc tế', subtitle: 'Nhật Bản · Hàn Quốc · Đài Loan' },
-            { icon: '⭐', title: '100% hài lòng', subtitle: 'Từ 1200+ học viên' }
+            { title: 'Giấy phép XKLĐ', subtitle: 'Số 368/LĐTBXH-GP' },
+            { title: 'Được cấp phép', subtitle: 'Bộ LĐ-TB và XH Việt Nam' },
+            { title: 'Đối tác quốc tế', subtitle: 'Nhật Bản · Hàn Quốc · Đài Loan' },
+            { title: '100% hài lòng', subtitle: 'Từ 1200+ học viên' }
           ].map(b => (
             <div key={b.title} className="text-center p-5 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-              <div className="text-3xl mb-2">{b.icon}</div>
               <div className="font-bold text-gray-800 text-sm">{b.title}</div>
               <div className="text-xs text-gray-500 mt-0.5">{b.subtitle}</div>
             </div>

@@ -20,7 +20,8 @@ export default {
       animation: {
         'fade-up': 'fadeUp 0.6s ease-out forwards',
         'fade-in': 'fadeIn 0.5s ease-out forwards',
-        'bounce-slow': 'bounce 3s infinite'
+        'bounce-slow': 'bounce 3s infinite',
+        'pulse-slow': 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite'
       },
       keyframes: {
         fadeUp: {
