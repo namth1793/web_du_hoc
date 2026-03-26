@@ -6,7 +6,7 @@ const quickLinks = [
   { label: 'Du học các nước', to: '/du-hoc/nhat-ban' },
   { label: 'Xuất khẩu lao động', to: '/xuat-khau-lao-dong/nhat-ban' },
   { label: 'Tin tức', to: '/tin-tuc/tuyen-sinh' },
-  { label: 'Liên hệ', href: '#contact' }
+  { label: 'Liên hệ', to: '/lien-he' }
 ];
 
 const programs = [

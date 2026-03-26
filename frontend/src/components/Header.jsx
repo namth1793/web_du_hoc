@@ -57,7 +57,7 @@ function NavItem({ label, to, dropdown, onClose }) {
             {label}
           </Link>
         ) : (
-          <a href="#contact" className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-all">
+          <a href="/lien-he" className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-all">
             {label}
           </a>
         )}
@@ -111,7 +111,7 @@ export default function Header() {
     { label: 'Du học các nước', dropdown: duHocMenu },
     { label: 'Xuất khẩu lao động', dropdown: xklDMenu },
     { label: 'Tin tức', dropdown: tinTucMenu },
-    { label: 'Liên hệ' }
+    { label: 'Liên hệ', to: '/lien-he' }
   ];
 
   return (
@@ -158,11 +158,11 @@ export default function Header() {
 
           {/* Right side */}
           <div className="flex items-center gap-2">
-            <a href="#contact"
+            <Link to="/lien-he"
               className="hidden md:flex items-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 shadow-md hover:shadow-lg">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/></svg>
               Đăng ký tư vấn
-            </a>
+            </Link>
 
             {/* Hamburger */}
             <button className="xl:hidden p-2 text-gray-600 hover:text-orange-500 transition-colors"
@@ -214,17 +214,17 @@ export default function Header() {
                     {item.label}
                   </Link>
                 ) : (
-                  <a href="#contact" onClick={() => setMenuOpen(false)}
+                  <a href="/lien-he" onClick={() => setMenuOpen(false)}
                     className="block py-2.5 px-4 text-sm font-medium text-gray-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-all">
                     {item.label}
                   </a>
                 )}
               </div>
             ))}
-            <a href="#contact" onClick={() => setMenuOpen(false)}
+            <Link to="/lien-he" onClick={() => setMenuOpen(false)}
               className="mt-2 bg-orange-500 text-white text-center py-2.5 rounded-full text-sm font-semibold">
               Đăng ký tư vấn
-            </a>
+            </Link>
           </div>
         </div>
       </nav>

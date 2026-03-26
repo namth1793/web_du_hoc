@@ -527,7 +527,7 @@ export default function GioiThieu() {
                   className="bg-white text-orange-600 font-bold px-5 py-2.5 rounded-full text-sm hover:bg-orange-50 transition-colors shadow-md">
                   035.9966.168
                 </a>
-                <Link to="/#contact"
+                <Link to="/lien-he"
                   className="bg-orange-700 text-white font-bold px-5 py-2.5 rounded-full text-sm hover:bg-orange-800 transition-colors shadow-md">
                   Đăng ký tư vấn
                 </Link>

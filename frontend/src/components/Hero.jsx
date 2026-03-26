@@ -99,7 +99,7 @@ export default function Hero() {
             {/* CTAs */}
             <div className="flex flex-wrap gap-3 pt-2">
               <a
-                href="#contact"
+                href="/lien-he"
                 className="group bg-orange-500 hover:bg-orange-600 text-white px-8 py-3.5 rounded-full font-bold text-base shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center gap-2"
               >
                 {banner.cta_text}

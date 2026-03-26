@@ -58,7 +58,7 @@ export default function CoreValues() {
               </div>
 
               <div className="mt-auto">
-                <a href="#contact" className="text-sm font-semibold text-orange-500 hover:text-orange-600 flex items-center gap-1 group">
+                <a href="/lien-he" className="text-sm font-semibold text-orange-500 hover:text-orange-600 flex items-center gap-1 group">
                   Tìm hiểu thêm
                   <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/>

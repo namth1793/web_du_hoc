@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function PromoBanner() {
   return (
     <section className="py-10 px-4 bg-white">
@@ -29,15 +31,15 @@ export default function PromoBanner() {
               </p>
 
               <div className="flex flex-wrap gap-3 mt-2">
-                <a
-                  href="#contact"
+                <Link
+                  to="/lien-he"
                   className="group bg-white text-orange-500 hover:bg-gray-50 px-7 py-3.5 rounded-full font-bold text-sm shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
                 >
                   ĐĂNG KÝ NGAY
                   <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
-                </a>
+                </Link>
                 <a
                   href="tel:035.9966.168"
                   className="bg-white/20 hover:bg-white/30 border border-white/40 text-white px-7 py-3.5 rounded-full font-semibold text-sm transition-all duration-300 flex items-center gap-2"

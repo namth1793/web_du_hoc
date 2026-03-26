@@ -107,7 +107,7 @@ export default function Testimonials() {
 
         <div className="text-center mt-10">
           <a
-            href="#contact"
+            href="/lien-he"
             className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-3.5 rounded-full font-bold shadow-lg hover:shadow-xl transition-all duration-300"
           >
             Bắt đầu hành trình của bạn

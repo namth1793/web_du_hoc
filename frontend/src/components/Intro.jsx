@@ -110,7 +110,7 @@ export default function Intro() {
 
             <div className="flex gap-3 pt-2">
               <a
-                href="#contact"
+                href="/lien-he"
                 className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 shadow-md hover:shadow-lg"
               >
                 Tư vấn miễn phí →

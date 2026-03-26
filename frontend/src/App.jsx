@@ -15,12 +15,12 @@ import PromoBanner from './components/PromoBanner';
 import Testimonials from './components/Testimonials';
 import EventsNews from './components/EventsNews';
 import MediaLogos from './components/MediaLogos';
-import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import ArticleList from './pages/ArticleList';
 import ArticleDetail from './pages/ArticleDetail';
 import Admin from './pages/Admin';
 import GioiThieu from './pages/GioiThieu';
+import LienHe from './pages/LienHe';
 
 function HomePage() {
   useEffect(() => {
@@ -42,7 +42,6 @@ function HomePage() {
       <Testimonials />
       <EventsNews />
       <MediaLogos />
-      <ContactForm />
     </>
   );
 }
@@ -62,6 +61,7 @@ function Layout() {
           <Route path="/du-hoc/:subcategory" element={<ArticleList section="du-hoc" />} />
           <Route path="/xuat-khau-lao-dong/:subcategory" element={<ArticleList section="xuat-khau-lao-dong" />} />
           <Route path="/tin-tuc/:subcategory" element={<ArticleList section="tin-tuc" />} />
+          <Route path="/lien-he" element={<LienHe />} />
           <Route path="/bai-viet/:id" element={<ArticleDetail />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>
