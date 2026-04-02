@@ -12,7 +12,7 @@ const defaultBanner = {
   stat1_num: '1200+', stat1_label: 'Học viên theo học',
   stat2_num: '680+', stat2_label: 'Học viên đã bay',
   stat3_num: '100%', stat3_label: 'Tỷ lệ đỗ visa',
-  img_main: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&q=95',
+  img_main: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1920&q=95',
   img_secondary: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1920&q=95',
   img_tertiary: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1920&q=95'
 };

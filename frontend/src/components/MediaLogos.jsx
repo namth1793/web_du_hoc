@@ -1,12 +1,12 @@
 const mediaLogos = [
-  { name: 'Kalmbach Media', color: '#1a4b8c', bg: '#e8f0fb' },
-  { name: 'Emerald Group', color: '#00693e', bg: '#e6f4ed' },
-  { name: 'MediaPro', color: '#1d2d50', bg: '#e8eaf6' },
-  { name: 'Cốc Cốc Creative', color: '#e87722', bg: '#fff3e8' },
-  { name: 'Mắt Bão', color: '#d62b2b', bg: '#fde8e8' },
-  { name: 'Dân Trí', color: '#e65c00', bg: '#fff0e6' },
-  { name: 'Nhân Dân', color: '#c0392b', bg: '#fdecea' },
-  { name: 'VietnamNet', color: '#0059a6', bg: '#e6f0fb' },
+  { name: 'Kalmbach Media', src: '/assets/company/Kalmbach_Media.png' },
+  { name: 'Emerald Group',  src: '/assets/company/emerald_group.png' },
+  { name: 'MediaPro',       src: '/assets/company/mediapro.jpg' },
+  { name: 'Cốc Cốc Creative', src: '/assets/company/creative.png' },
+  { name: 'Mắt Bão',       src: '/assets/company/mat_bao.png' },
+  { name: 'Dân Trí',        src: '/assets/company/Dan_Tri.png' },
+  { name: 'Nhân Dân',       src: '/assets/company/nhan_dan.png' },
+  { name: 'VietnamNet',     src: '/assets/company/vietnamnet.png' },
 ];
 
 export default function MediaLogos() {
@@ -25,14 +25,14 @@ export default function MediaLogos() {
           {mediaLogos.map((m, i) => (
             <div
               key={i}
-              className="bg-white border border-gray-100 rounded-2xl p-5 flex items-center justify-center shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+              className="bg-white border border-gray-100 rounded-2xl p-5 flex items-center justify-center shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 cursor-pointer h-24"
             >
-              <span
-                className="text-sm font-black tracking-tight text-center leading-tight"
-                style={{ color: m.color }}
-              >
-                {m.name}
-              </span>
+              <img
+                src={m.src}
+                alt={m.name}
+                className="max-h-12 max-w-full object-contain"
+                loading="lazy"
+              />
             </div>
           ))}
         </div>

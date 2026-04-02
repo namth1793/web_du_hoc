@@ -13,7 +13,7 @@ function ArticleCard({ article }) {
       {/* Cover image – horizontal layout */}
       <div className="sm:w-64 flex-shrink-0 h-48 sm:h-auto overflow-hidden">
         <img
-          src={article.cover_image || 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&q=80'}
+          src={article.cover_image || 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&q=80'}
           alt={article.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"

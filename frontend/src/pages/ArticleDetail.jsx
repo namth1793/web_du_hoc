@@ -150,7 +150,7 @@ export default function ArticleDetail() {
                 <Link key={a.id} to={`/bai-viet/${a.id}`}
                   className="flex gap-4 bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-all group border border-gray-100">
                   <div className="w-28 h-20 rounded-xl overflow-hidden flex-shrink-0">
-                    <img src={a.cover_image || 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=200&q=80'}
+                    <img src={a.cover_image || 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=200&q=80'}
                       alt={a.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy"/>
                   </div>
                   <div className="flex-1 min-w-0">

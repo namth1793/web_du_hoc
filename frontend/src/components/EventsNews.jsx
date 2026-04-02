@@ -77,7 +77,7 @@ function ArticleCard({ article, size = 'normal', accentColor = 'orange' }) {
 }
 
 const fallbackEvents = [
-  { id: 'fe1', title: 'Thông báo tuyển sinh khóa du học Nhật Bản tháng 5/2025', cover_image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80', excerpt: 'HCIT thông báo tuyển sinh khóa chuẩn bị du học Nhật Bản khai giảng tháng 5/2025. Ưu tiên hồ sơ nộp trước 30/4.', published_at: '2025-04-01' },
+  { id: 'fe1', title: 'Thông báo tuyển sinh khóa du học Nhật Bản tháng 5/2025', cover_image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&q=80', excerpt: 'HCIT thông báo tuyển sinh khóa chuẩn bị du học Nhật Bản khai giảng tháng 5/2025. Ưu tiên hồ sơ nộp trước 30/4.', published_at: '2025-04-01' },
   { id: 'fe2', title: 'Tuyển sinh chương trình tiếng Hàn cấp tốc – Khai giảng tháng 6/2025', cover_image: 'https://images.unsplash.com/photo-1546521343-4eb2c01aa44b?w=600&q=80', excerpt: 'Lớp tiếng Hàn cấp tốc 4 tháng đạt TOPIK II cấp độ 3, cam kết đầu ra hoặc học lại miễn phí.', published_at: '2025-03-20' },
   { id: 'fe3', title: 'ABS tổ chức hội thảo du học Nhật Bản thu hút hơn 500 học viên', cover_image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80', excerpt: 'Sự kiện hội thảo du học Nhật Bản ngày 20/3/2025 đã thu hút hơn 500 học viên và phụ huynh tham dự.', published_at: '2025-03-21' },
   { id: 'fe4', title: 'Lễ tiễn 50 lao động Việt Nam sang Đài Loan làm việc', cover_image: 'https://images.unsplash.com/photo-1529260830199-42c24126f198?w=600&q=80', excerpt: 'HCIT long trọng tổ chức lễ tiễn 50 lao động lên đường sang Đài Loan, đánh dấu đợt xuất cảnh lớn nhất quý I/2025.', published_at: '2025-03-15' },
@@ -88,7 +88,7 @@ const fallbackNews = [
   { id: 'fn2', title: 'Xu hướng du học toàn cầu sau đại dịch – Dự báo 2025-2030', cover_image: 'https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?w=600&q=80', excerpt: 'Các xu hướng du học quốc tế đang thay đổi mạnh mẽ sau COVID-19. Đâu là điểm đến và ngành học được ưu tiên?', published_at: '2025-03-25', section: 'du-hoc' },
   { id: 'fn3', title: 'Chi phí du học Hàn Quốc 2025 cập nhật mới nhất', cover_image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=80', excerpt: 'Tổng hợp chi phí du học Hàn Quốc 2025 bao gồm học phí, sinh hoạt phí và các khoản hỗ trợ từ chính phủ.', published_at: '2025-03-18', section: 'du-hoc' },
   { id: 'fn4', title: 'Chương trình xuất khẩu lao động Đài Loan 2025 mở rộng ngành nghề', cover_image: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?w=600&q=80', excerpt: 'Đài Loan mở rộng tiếp nhận lao động Việt Nam sang các ngành điện tử, chăm sóc sức khỏe và nông nghiệp.', published_at: '2025-03-10', section: 'xuat-khau-lao-dong' },
-  { id: 'fn5', title: 'Học bổng du học Nhật Bản dành cho sinh viên Việt Nam 2025', cover_image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80', excerpt: 'Danh sách học bổng du học Nhật Bản 2025 từ chính phủ Nhật, trường đại học và tổ chức phi lợi nhuận.', published_at: '2025-03-05', section: 'du-hoc' },
+  { id: 'fn5', title: 'Học bổng du học Nhật Bản dành cho sinh viên Việt Nam 2025', cover_image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&q=80', excerpt: 'Danh sách học bổng du học Nhật Bản 2025 từ chính phủ Nhật, trường đại học và tổ chức phi lợi nhuận.', published_at: '2025-03-05', section: 'du-hoc' },
 ];
 
 export default function EventsNews() {
