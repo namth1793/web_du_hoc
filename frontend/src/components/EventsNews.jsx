@@ -94,7 +94,7 @@ const fallbackNews = [
 export default function EventsNews() {
   const [events, setEvents] = useState(fallbackEvents);
   const [news, setNews] = useState(fallbackNews);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     Promise.all([
