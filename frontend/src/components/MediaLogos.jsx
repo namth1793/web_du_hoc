@@ -30,7 +30,7 @@ export default function MediaLogos() {
               <img
                 src={m.src}
                 alt={m.name}
-                className="max-h-12 max-w-full object-contain"
+                className="max-w-full object-contain"
                 loading="lazy"
               />
             </div>

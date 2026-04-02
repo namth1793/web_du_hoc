@@ -12,9 +12,9 @@ const defaultBanner = {
   stat1_num: '1200+', stat1_label: 'Học viên theo học',
   stat2_num: '680+', stat2_label: 'Học viên đã bay',
   stat3_num: '100%', stat3_label: 'Tỷ lệ đỗ visa',
-  img_main: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1920&q=95',
-  img_secondary: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1920&q=95',
-  img_tertiary: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1920&q=95'
+  img_main: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1920&q=95',
+  img_secondary: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1920&q=95',
+  img_tertiary: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1920&q=95'
 };
 
 export default function Hero() {
