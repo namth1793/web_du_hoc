@@ -1,14 +1,12 @@
-const partners = [
-  { name: 'Hanyang Univ.', abbr: 'HY', color: '#c41e3a' },
-  { name: 'Sejong Univ.', abbr: 'SJ', color: '#004B9E' },
-  { name: 'Inha Univ.', abbr: 'IN', color: '#0033A0' },
-  { name: 'Konkuk Univ.', abbr: 'KK', color: '#002868' },
-  { name: 'NTU Taiwan', abbr: 'NTU', color: '#8B0000' },
-  { name: 'NCKU', abbr: 'NK', color: '#003087' },
-  { name: 'NTUST', abbr: 'NT', color: '#1B4F72' },
-  { name: 'FCU Taiwan', abbr: 'FC', color: '#6B2D8B' },
-  { name: 'Keio Univ.', abbr: 'KU', color: '#003087' },
-  { name: 'Waseda Univ.', abbr: 'WU', color: '#820000' }
+const mediaLogos = [
+  { name: 'Kalmbach Media', color: '#1a4b8c', bg: '#e8f0fb' },
+  { name: 'Emerald Group', color: '#00693e', bg: '#e6f4ed' },
+  { name: 'MediaPro', color: '#1d2d50', bg: '#e8eaf6' },
+  { name: 'Cốc Cốc Creative', color: '#e87722', bg: '#fff3e8' },
+  { name: 'Mắt Bão', color: '#d62b2b', bg: '#fde8e8' },
+  { name: 'Dân Trí', color: '#e65c00', bg: '#fff0e6' },
+  { name: 'Nhân Dân', color: '#c0392b', bg: '#fdecea' },
+  { name: 'VietnamNet', color: '#0059a6', bg: '#e6f0fb' },
 ];
 
 export default function MediaLogos() {
@@ -16,54 +14,27 @@ export default function MediaLogos() {
     <section className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-12 animate-on-scroll">
-          <h2 className="section-title">Đối tác liên kết</h2>
+          <h2 className="section-title">Đối tác & Truyền thông</h2>
           <p className="section-subtitle">
-            HCIT hợp tác với các trường đại học, tổ chức giáo dục uy tín tại Nhật Bản, Hàn Quốc và Đài Loan
+            HCIT được các cơ quan truyền thông và đối tác uy tín trong và ngoài nước tin tưởng hợp tác
           </p>
         </div>
 
-        {/* Partner logos grid */}
-        <div className="grid grid-cols-3 md:grid-cols-5 gap-4 mb-12 animate-on-scroll">
-          {partners.map((p, i) => (
+        {/* Media logos grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12 animate-on-scroll">
+          {mediaLogos.map((m, i) => (
             <div
               key={i}
-              className="bg-white border border-gray-100 rounded-2xl p-5 flex items-center justify-center shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer hover:-translate-y-1"
+              className="bg-white border border-gray-100 rounded-2xl p-5 flex items-center justify-center shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 cursor-pointer"
             >
-              <div className="flex items-center gap-2">
-                <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-black text-xs flex-shrink-0"
-                  style={{ backgroundColor: p.color }}
-                >
-                  {p.abbr}
-                </div>
-                <span className="text-xs font-semibold text-gray-600 group-hover:text-gray-900 transition-colors">{p.name}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Country partners */}
-        <div className="animate-on-scroll">
-          <p className="text-center text-sm text-gray-500 mb-6 font-medium">Quốc gia đối tác</p>
-          <div className="flex flex-wrap justify-center gap-3">
-            {[
-              { name: 'Nhật Bản', bg: 'bg-red-50 text-red-600 border-red-200' },
-              { name: 'Hàn Quốc', bg: 'bg-blue-50 text-blue-600 border-blue-200' },
-              { name: 'Đài Loan', bg: 'bg-green-50 text-green-600 border-green-200' },
-              { name: 'Trường đại học Hàn Quốc', bg: 'bg-indigo-50 text-indigo-600 border-indigo-200' },
-              { name: 'Trường đại học Đài Loan', bg: 'bg-purple-50 text-purple-600 border-purple-200' },
-              { name: 'Doanh nghiệp Nhật Bản', bg: 'bg-orange-50 text-orange-600 border-orange-200' },
-              { name: 'Doanh nghiệp Hàn Quốc', bg: 'bg-sky-50 text-sky-600 border-sky-200' },
-              { name: 'Tổ chức giáo dục quốc tế', bg: 'bg-yellow-50 text-yellow-700 border-yellow-200' }
-            ].map(m => (
               <span
-                key={m.name}
-                className={`px-4 py-2 rounded-full border text-sm font-medium ${m.bg} hover:scale-105 transition-transform cursor-pointer`}
+                className="text-sm font-black tracking-tight text-center leading-tight"
+                style={{ color: m.color }}
               >
                 {m.name}
               </span>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
 
         {/* Trust badges */}

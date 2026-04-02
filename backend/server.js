@@ -65,9 +65,9 @@ const defaultBanner = {
   stat1_num: '1200+', stat1_label: 'Học viên theo học',
   stat2_num: '680+', stat2_label: 'Học viên đã bay',
   stat3_num: '100%', stat3_label: 'Tỷ lệ đỗ visa',
-  img_main: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=600&q=80',
-  img_secondary: 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=400&q=80',
-  img_tertiary: 'https://images.unsplash.com/photo-1470004914212-05527e49370b?w=300&q=80'
+  img_main: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&q=95',
+  img_secondary: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1920&q=95',
+  img_tertiary: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1920&q=95'
 };
 const existingBanner = db.prepare("SELECT value FROM site_settings WHERE key='banner'").get();
 if (!existingBanner) {
